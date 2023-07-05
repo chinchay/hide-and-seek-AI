@@ -1,11 +1,10 @@
 #include <iostream>
-#include <string>
+// #include <string>
 #include "fixedTile.h"
 
 using namespace std;
 
-FixedTile::FixedTile(
-    string filename, int x, int y, int id) : Tile(filename, x, y, id){
-        // cout << filename << endl;
+FixedTile::FixedTile(int c, int x, int y, int id) : Tile(c, x, y, id){
+
     }
 

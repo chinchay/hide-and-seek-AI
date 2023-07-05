@@ -7,8 +7,8 @@
 using namespace std;
 
 class Tile{
-    private:
-    string filenane;
+    public:
+    int c;
     int x;
     int y;
     int id;
@@ -20,9 +20,13 @@ class Tile{
     public:
 
     ~Tile(){}
-    Tile(string filename, int x, int y, int id);
+    Tile(int c, int x, int y, int id);
 
-    virtual void display() const {cout << "I am a tile" << endl; };
+    virtual void display() const {
+        cout << "I am a tile " << to_string(this->c) << endl;
+    };
+
+    
 };
 
 #endif

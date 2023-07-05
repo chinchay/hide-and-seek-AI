@@ -11,9 +11,10 @@ Scenario::Scenario(){
     listLine = GetLines();
     UpdateScenarioSize();
     // DisplayLines();
-    letter2file['?'] = "images/tile.jpg";
-    letter2file['#'] = "images/brick.png";
-    letter2file['='] = "images/brick.png";
+    
+    char2int['?'] = 1;
+    char2int['#'] = 2;
+    char2int['='] = 3;
 
     LoadTiles();
 
@@ -47,16 +48,17 @@ void Scenario::DisplayLines(){
 }
 
 void Scenario::LoadTiles(){
-    char letter;
+    char character;
+    int c;
     int x = 0;
     int y = 0;
     int count = 0;
     for(int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
-            letter = listLine[i][j];
-            if (letter != '-'){
-                string filename4tile = letter2file[letter];
-                Tile* tile = new FixedTile(filename4tile, x, y, count);
+            character = listLine[i][j];
+            if (character != '-'){
+                c = char2int[character];
+                Tile* tile = new FixedTile(c, x, y, count);
                 this->listFixedTilePtr.push_back(tile);
                 count += 1;
             }

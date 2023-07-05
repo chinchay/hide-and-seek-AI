@@ -6,10 +6,12 @@
 
 class FixedTile : public Tile{
     public:
-    FixedTile(string filename, int x, int y, int id);
+    FixedTile(int c, int x, int y, int id);
 
 
-    virtual void display() const {cout << "I am a fixed tile" << endl; };
+    virtual void display() const {
+        cout << "I am a fixed tile " << to_string(this->c) << endl;
+    };
 
 };
 

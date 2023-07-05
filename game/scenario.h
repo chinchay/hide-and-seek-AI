@@ -28,7 +28,7 @@ class Scenario{
     vector<string> listLine;
     int count = 0;
     vector<Tile *> listFixedTilePtr;
-    map<char, string> letter2file;
+    map<char, int> char2int;
 
 
     public:
