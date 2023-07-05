@@ -10,21 +10,48 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <map>
+#include "tile.h"
+
+using namespace std;
 
 class Scenario{
     private:
-    int tileW = 50;
-    int tileH = 50;
-    std::string filename = "platform.txt";
+    int tileW = 1; // 50, no need to be 50, since it'll be run in the background
+    int tileH = 1; // 50
+    int cols = 0;
+    int rows = 0;
+    int scenarioW = 0;
+    int scenarioH = 0;
+    string filename = "platform.txt";
+    vector<string> listLine;
+    int count = 0;
+    vector<Tile *> listFixedTilePtr;
+    map<char, string> letter2file;
 
 
     public:
-    ~Scenario(){};
+
+
+    ~Scenario(){
+        for (int i = 0; i < listFixedTilePtr.size(); i++){
+            delete listFixedTilePtr[i];
+        }        
+        
+        listFixedTilePtr.clear();
+
+    };
 
     Scenario();
 
-    void UpdateMapSize();
+    vector<string> GetLines();
 
+    void UpdateScenarioSize();
+
+    void DisplayLines();
+
+    void LoadTiles();
 
 
 };

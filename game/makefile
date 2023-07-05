@@ -1,9 +1,15 @@
 
-a.out: game.o Scenario.o
-	g++ game.o Scenario.o -std=c++11
+a.out: game.o scenario.o tile.o fixedTile.o
+	g++ game.o scenario.o tile.o fixedTile.o -std=c++11
 
-Scenario.o: Scenario.cpp Scenario.h
-	g++ -c Scenario.cpp -std=c++11
+tile.o: tile.cpp tile.h
+	g++ -c tile.cpp -std=c++11
+
+fixedTile.o: fixedTile.cpp fixedTile.h tile.h
+	g++ -c fixedTile.cpp -std=c++11
+
+scenario.o: scenario.cpp scenario.h tile.h fixedTile.h
+	g++ -c scenario.cpp -std=c++11
 
 game.o: game.cpp
 	g++ -c game.cpp -std=c++11
