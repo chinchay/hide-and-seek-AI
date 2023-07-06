@@ -9,7 +9,7 @@ class FixedTile : public Tile{
     FixedTile(int c, int x, int y, int id);
 
 
-    virtual void display() const {
+    virtual void Display() const {
         cout << "I am a fixed tile " << to_string(this->c) << endl;
     };
 

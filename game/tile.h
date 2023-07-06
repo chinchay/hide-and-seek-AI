@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 
+
 using namespace std;
 
 class Tile{
@@ -22,9 +23,11 @@ class Tile{
     ~Tile(){}
     Tile(int c, int x, int y, int id);
 
-    virtual void display() const {
+    virtual void Display() const {
         cout << "I am a tile " << to_string(this->c) << endl;
     };
+
+    // void Draw(Tile* pAgent);
 
     
 };

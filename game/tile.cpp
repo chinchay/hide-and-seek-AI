@@ -10,3 +10,7 @@ Tile::Tile(int c, int x, int y, int id){
     this->id = id;
 
 }
+
+// void Tile::Draw(Tile* pAgent){
+
+// }

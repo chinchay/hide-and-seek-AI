@@ -4,6 +4,7 @@
 #include <vector>
 #include "tile.h"
 #include "fixedTile.h"
+#include "agent.h"
 
 using namespace std;
 
@@ -34,10 +35,10 @@ vector<string> Scenario::GetLines(){
 }
 
 void Scenario::UpdateScenarioSize(){
-    this->rows = listLine.size();
-    this->cols = listLine[0].length();
-    // scenarioW = cols * tileW;
-    // scenarioH = rows * tileH;
+    rows = listLine.size();
+    cols = listLine[0].length();
+    scenarioW = cols * tileW;
+    scenarioH = rows * tileH;
 
 }
 
@@ -59,7 +60,7 @@ void Scenario::LoadTiles(){
             if (character != '-'){
                 c = char2int[character];
                 Tile* tile = new FixedTile(c, x, y, count);
-                this->listFixedTilePtr.push_back(tile);
+                this->listTile.push_back(tile);
                 count += 1;
             }
             x += this->tileW;
@@ -67,12 +68,16 @@ void Scenario::LoadTiles(){
         x = 0;
         y += this->tileH;
     }
-
-
-
-    for (int i = 0; i < this->listFixedTilePtr.size(); i++){
-        this->listFixedTilePtr[i]->display();
-    }
-
-
+    
+    // for (int i = 0; i < this->listTile.size(); i++){
+    //     this->listTile[i]->Display();
+    // }
 }
+
+// void Scenario::Draw(){
+//     Agent* pAgent = new Agent(0,0,0,0);
+//     // Tile agent = Tile(0,0,0,0);
+//     for (Tile* pTile: listTile){
+//         pTile->Draw(pAgent);
+//     }
+// }

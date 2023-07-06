@@ -27,19 +27,18 @@ class Scenario{
     string filename = "platform.txt";
     vector<string> listLine;
     int count = 0;
-    vector<Tile *> listFixedTilePtr;
+    vector<Tile *> listTile;
     map<char, int> char2int;
 
 
     public:
 
-
     ~Scenario(){
-        for (int i = 0; i < listFixedTilePtr.size(); i++){
-            delete listFixedTilePtr[i];
+        for (int i = 0; i < listTile.size(); i++){
+            delete listTile[i];
         }        
         
-        listFixedTilePtr.clear();
+        listTile.clear();
 
     };
 
@@ -52,6 +51,10 @@ class Scenario{
     void DisplayLines();
 
     void LoadTiles();
+
+    int GetCount(){return count;};
+
+    // void Draw();
 
 
 };
