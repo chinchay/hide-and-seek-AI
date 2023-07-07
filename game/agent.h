@@ -5,10 +5,15 @@
 
 class Agent : MovableTile{
     private:
-        /* data */
+    float GetArcCos(int x1, int y1, int x2, int y2);
+
     public:
-        Agent(int c, int x, int y, int id);
-        ~Agent();
+    Agent(int c, int x, int y, int id);
+    ~Agent();
+
+    bool CanIseeAgent(Agent* pAgent, vector<Tile*> listTile);
+
+        
 };
 
 

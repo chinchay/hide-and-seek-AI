@@ -74,10 +74,4 @@ void Scenario::LoadTiles(){
     // }
 }
 
-// void Scenario::Draw(){
-//     Agent* pAgent = new Agent(0,0,0,0);
-//     // Tile agent = Tile(0,0,0,0);
-//     for (Tile* pTile: listTile){
-//         pTile->Draw(pAgent);
-//     }
-// }
+// void Scenario::Draw(Tile* pAgent){}

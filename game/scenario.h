@@ -54,7 +54,7 @@ class Scenario{
 
     int GetCount(){return count;};
 
-    // void Draw();
+    // void Draw(Tile* pAgent);
 
 
 };

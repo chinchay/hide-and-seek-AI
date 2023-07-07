@@ -4,7 +4,7 @@
 
 using namespace std;
 
-FixedTile::FixedTile(int c, int x, int y, int id) : Tile(c, x, y, id){
+FixedTile::FixedTile(int type, int x, int y, int id) : Tile(type, x, y, id){
 
     }
 
