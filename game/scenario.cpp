@@ -13,9 +13,9 @@ Scenario::Scenario(){
     UpdateScenarioSize();
     // DisplayLines();
     
-    char2int['?'] = 1;
-    char2int['#'] = 2;
-    char2int['='] = 3;
+    char2type['?'] = 1;
+    char2type['#'] = 2;
+    char2type['='] = 3;
 
     LoadTiles();
 
@@ -50,7 +50,7 @@ void Scenario::DisplayLines(){
 
 void Scenario::LoadTiles(){
     char character;
-    int c;
+    int type;
     int x = 0;
     int y = 0;
     int count = 0;
@@ -58,8 +58,8 @@ void Scenario::LoadTiles(){
         for (int j = 0; j < cols; j++){
             character = listLine[i][j];
             if (character != '-'){
-                c = char2int[character];
-                Tile* tile = new FixedTile(c, x, y, count);
+                type = char2type[character];
+                Tile* tile = new FixedTile(type, x, y, count);
                 this->listTile.push_back(tile);
                 count += 1;
             }

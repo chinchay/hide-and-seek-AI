@@ -2,7 +2,7 @@
 #include "movableTile.h"
 #include <vector>
 
-Agent::Agent(int c, int x, int y, int id) : MovableTile(c, x, y, id){
+Agent::Agent(int type, int x, int y, int id) : MovableTile(type, x, y, id){
 
 }
 

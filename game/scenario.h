@@ -28,7 +28,7 @@ class Scenario{
     vector<string> listLine;
     int count = 0;
     vector<Tile *> listTile;
-    map<char, int> char2int;
+    map<char, int> char2type;
 
 
     public:

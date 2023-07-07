@@ -5,7 +5,7 @@
 
 class MovableTile: public Tile{
     public:
-    MovableTile(int c, int x, int y, int id);
+    MovableTile(int type, int x, int y, int id);
 
 };
 

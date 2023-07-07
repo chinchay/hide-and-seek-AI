@@ -1,5 +1,5 @@
 #include "movableTile.h"
 
-MovableTile::MovableTile(int c, int x, int y, int id) : Tile(c, x, y, id){
+MovableTile::MovableTile(int type, int x, int y, int id) : Tile(type, x, y, id){
 
 }
