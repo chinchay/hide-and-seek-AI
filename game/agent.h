@@ -2,6 +2,7 @@
 #define AGENT_H
 
 #include "movableTile.h"
+#include <vector>
 
 class Agent : public MovableTile{
     private:
@@ -12,6 +13,7 @@ class Agent : public MovableTile{
     ~Agent();
 
     bool CanIseeAgent(Agent* pAgent, vector<Tile*> listTile);
+    void virtual ProcessEvent(int event, vector<Tile*> allOthers);
 
         
 };

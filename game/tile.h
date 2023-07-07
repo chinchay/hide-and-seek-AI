@@ -3,6 +3,8 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
+#include <string>
 
 
 using namespace std;
@@ -28,11 +30,17 @@ class Tile{
     int GetY() {return y;};
     int GetType() const {return type;};
 
+    virtual string GetStr() const {
+        return "I am a tile " + to_string(type);
+    };
+
     virtual void Display() const {
-        cout << "I am a tile " << to_string(type) << endl;
+        cout << GetStr() << endl;
     };
 
     // void Draw(Tile* pAgent);
+
+    virtual void ProcessEvent(int event, vector<Tile*> allOthers){};
 
     
 };

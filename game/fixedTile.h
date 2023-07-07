@@ -9,9 +9,9 @@ class FixedTile : public Tile{
     FixedTile(int type, int x, int y, int id);
 
 
-    virtual void Display() const {
-        cout << "I am a fixed tile " << to_string(GetType()) << endl;
-    };
+    virtual string GetStr() const {
+        return "I am a fixed tile. Type: " + to_string(GetType());
+    };  
 
 };
 

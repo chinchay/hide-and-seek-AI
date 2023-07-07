@@ -2,11 +2,23 @@
 #include "movableTile.h"
 #include <vector>
 
+#include <iostream>
+#include <string>
+using namespace std;
+
 Agent::Agent(int type, int x, int y, int id) : MovableTile(type, x, y, id){
 
 }
 
 Agent::~Agent(){
+}
+
+void Agent::ProcessEvent(int event, vector<Tile*> allOthers){
+    cout << allOthers.size() << endl;
+    for (int i = 0; i < allOthers.size(); i++){
+        cout << to_string(event) << " " << allOthers[i]->GetStr() << endl;
+    }
+    
 }
 
 bool Agent::CanIseeAgent(Agent* pAgent, vector<Tile*> listTile){
