@@ -26,9 +26,11 @@ class Scenario{
     int scenarioH = 0;
     string filename = "platform.txt";
     vector<string> listLine;
-    int count = 0;
+    // int count = 0;
     vector<Tile *> listTile;
     map<char, int> char2type;
+
+    void LoadTiles();
 
 
     public:
@@ -44,17 +46,19 @@ class Scenario{
 
     Scenario();
 
+    vector<Tile *> GetListTile(){return listTile;};
+
     vector<string> GetLines();
 
     void UpdateScenarioSize();
 
     void DisplayLines();
 
-    void LoadTiles();
-
-    int GetCount(){return count;};
+    // int GetCount(){return count;};
 
     // void Draw(Tile* pAgent);
+
+
 
 
 };

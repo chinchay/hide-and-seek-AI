@@ -5,6 +5,8 @@
 
 class Seeker: Agent {
     public:
+    ~Seeker(){};
+    Seeker(int type, int x, int y, int id);
 
 };
 
