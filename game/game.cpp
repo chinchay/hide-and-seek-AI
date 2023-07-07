@@ -23,15 +23,20 @@ int main(){
 
     int cubeX  = 20;
     int cubeY  = 20;
-    Cube* pCube = new Cube(7, cubeX, cubeY, n + 3);
+    Tile* pCube = new Cube(7, cubeX, cubeY, n + 3);
+
+    vector<Tile*> listMovableTile;
+    listMovableTile.push_back(pCube);
+
+
 
 
     // *************************************************************************
     // Free memory
     // *************************************************************************
-    for (int i = 0; i < listFixedTile.size(); i++){
-        delete listFixedTile[i];
-    }        
+    // for (int i = 0; i < listFixedTile.size(); i++){
+    //     delete listFixedTile[i];
+    // }        
     listFixedTile.clear();
 
     delete pHider;

@@ -3,7 +3,7 @@
 
 #include "movableTile.h"
 
-class Agent : MovableTile{
+class Agent : public MovableTile{
     private:
     float GetArcCos(int x1, int y1, int x2, int y2);
 

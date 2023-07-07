@@ -3,7 +3,7 @@
 
 #include "movableTile.h"
 
-class Cube: MovableTile{
+class Cube: public MovableTile{
     public:
     ~Cube(){};
     Cube(int type, int x, int y, int id);
