@@ -4,7 +4,8 @@
 
 using namespace std;
 
-FixedTile::FixedTile(int type, int x, int y, int id) : Tile(type, x, y, id){
-
-    }
+FixedTile::FixedTile(int type, int iRow, int jCol, int id) : Tile(type, iRow, jCol, id){
+    canImove = false;
+    amIpushable = false;
+}
 

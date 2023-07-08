@@ -3,14 +3,10 @@
 // #include <iostream>
 using namespace std;
 
-Tile::Tile(int type, int x, int y, int id){
+Tile::Tile(int type, int iRow, int jCol, int id){
     this->type = type;
-    this->x = x;
-    this->y = y;
+    this->iRow = iRow;
+    this->jCol = jCol;
     this->id = id;
 
 }
-
-// void Tile::Draw(Tile* pAgent){
-
-// }

@@ -26,8 +26,9 @@ class Scenario{
     int scenarioH = 0;
     string filename = "platform.txt";
     vector<string> listLine;
-    // int count = 0;
     vector<Tile *> listTile;
+    vector<vector<int>> types;
+    vector<vector<int>> indxs;
     map<char, int> char2type;
 
     void LoadTiles();
@@ -45,10 +46,14 @@ class Scenario{
     };
 
     Scenario();
+    int GetRows(){return rows;};
+    int GetCols(){return cols;};
 
     vector<Tile *> GetListTile(){return listTile;};
 
     vector<string> GetLines();
+    vector<vector<int>> GetTypes(){return types;};
+    vector<vector<int>> GetIndxs(){return indxs;};
 
     void UpdateScenarioSize();
 

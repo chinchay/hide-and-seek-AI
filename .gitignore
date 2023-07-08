@@ -32,3 +32,6 @@
 *.app
 
 .vscode/
+
+seeker.txt
+hider.txt

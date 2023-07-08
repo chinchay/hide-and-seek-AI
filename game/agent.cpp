@@ -3,25 +3,44 @@
 #include <vector>
 
 #include <iostream>
+#include <fstream>
 #include <string>
 using namespace std;
 
-Agent::Agent(int type, int x, int y, int id) : MovableTile(type, x, y, id){
-
+Agent::Agent(int type, int iRow, int jCol, int id, string filename) : MovableTile(type, iRow, jCol, id){
+    this->filename = filename;
+    canImove = true;
+    amIpushable = false;
 }
 
 Agent::~Agent(){
 }
 
-void Agent::ProcessEvent(int event, vector<Tile*> allOthers){
-    cout << allOthers.size() << endl;
-    for (int i = 0; i < allOthers.size(); i++){
-        cout << to_string(event) << " " << allOthers[i]->GetStr() << endl;
+void Agent::ProcessEvent(int event, vector<Tile*> &allOthers, vector<vector<int>> &matrixID){
+    // // Make tiles introduce themselves
+    // cout << allOthers.size() << endl;
+    // for (int i = 0; i < allOthers.size(); i++){
+    //     cout << to_string(event) << " " << allOthers[i]->GetStr() << endl;
+    // }
+
+    string direction = GetDirection(event);
+    if (direction != "none"){
+        if (CanIPush(allOthers, direction, matrixID)){
+            Move();
+            listMove.push_back(event);
+        }
     }
-    
 }
 
-bool Agent::CanIseeAgent(Agent* pAgent, vector<Tile*> listTile){
+void Agent::SaveMoves(){
+    ofstream f(filename);
+    for (int i = 0; i < listMove.size(); i++){
+        f << listMove[i];
+    }
+    f.close();
+}
+
+bool Agent::CanIseeAgent(Agent* pAgent, vector<Tile*> &listTile){
     float alphaThreshold = 25.0; //! check if this value is good ***************
 
     int n = listTile.size();
@@ -29,23 +48,23 @@ bool Agent::CanIseeAgent(Agent* pAgent, vector<Tile*> listTile){
     int dy1;
     int dx2;
     int dy2;
-    int x = this->GetX();
-    int y = this->GetY();
-    int xAgent = pAgent->GetX();
-    int yAgent = pAgent->GetY();
-    int xTile;
-    int yTile;
+    int iRow = this->Get_iRow();
+    int jCol = this->Get_jCol();
+    int iRowAgent = pAgent->Get_iRow();
+    int jColAgent = pAgent->Get_jCol();
+    int iRowTile;
+    int jColtile;
     float alpha;
 
     for (int i = 0; i < n; i++){
-        xTile = listTile[i]->GetX();
-        yTile = listTile[i]->GetY();
+        iRowTile = listTile[i]->Get_iRow();
+        jColtile = listTile[i]->Get_jCol();
 
-        dx1 = xAgent - xTile;
-        dy1 = yAgent - yTile;
+        dx1 = iRowAgent - iRowTile;
+        dy1 = jColAgent - jColtile;
 
-        dx2 = xTile - x;
-        dy2 = yTile - y;
+        dx2 = iRowTile - iRow;
+        dy2 = jColtile - jCol;
 
         alpha = GetArcCos(dx1, dy1, dx2, dy2);
         
