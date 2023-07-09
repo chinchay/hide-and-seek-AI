@@ -2,7 +2,7 @@
 #include "agent.h"
 #include <string>
 
-Seeker::Seeker(int type, float x, float y, int id, string filename) : Agent(type, x, y, id, filename){
+Seeker::Seeker(int type, int id, int pos1dim, int rows, int cols, string filename) : Agent(type, id, pos1dim, rows, cols, filename){
 
 }
 
@@ -16,12 +16,12 @@ string Seeker::GetDirection(int event){
     switch (event)
     {
     case 5:
-        // EchoMove("+y");
-        return "dw";
-        // break;
-    case 6:
         // EchoMove("-y");
         return "up";
+        // break;
+    case 6:
+        // EchoMove("+y");
+        return "dw";
         // break;
     case 7:
         // EchoMove("-x");

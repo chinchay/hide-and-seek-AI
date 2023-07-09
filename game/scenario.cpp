@@ -37,9 +37,6 @@ vector<string> Scenario::GetLines(){
 void Scenario::UpdateScenarioSize(){
     rows = listLine.size();
     cols = listLine[0].length();
-    scenarioW = cols * tileW;
-    scenarioH = rows * tileH;
-
 }
 
 void Scenario::DisplayLines(){
@@ -51,32 +48,21 @@ void Scenario::DisplayLines(){
 void Scenario::LoadTiles(){
     char character;
     int type;
-    float x = 0.0;
-    float y = 0.0;
-    int count = 0;
+    int id = 0;
+    int pos1dim = 0;
     
-    vector<vector<int>> mTypes( rows , vector<int> (cols, 0));
-    vector<vector<int>> mIndxs( rows , vector<int> (cols, -1));
-
     for(int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
             character = listLine[i][j];
             if (character != '-'){
                 type = char2type[character];
-                Tile* tile = new FixedTile(type, x, y, count);
-                mTypes[i][j] = type;
-                mIndxs[i][j] = count;
-                this->listTile.push_back(tile);
-                count += 1;
+                Tile* pTile = new FixedTile(type, id, pos1dim);
+                this->listTile.push_back(pTile);
+                id += 1;
             }
-            x += this->tileW;
+            pos1dim += 1;
         }
-        x = 0;
-        y += this->tileH;
     }
-
-    this->types = mTypes;
-    this->indxs = mIndxs;
     
     // for (int i = 0; i < this->listTile.size(); i++){
     //     this->listTile[i]->Display();

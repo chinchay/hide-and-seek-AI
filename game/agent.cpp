@@ -1,5 +1,6 @@
 #include "agent.h"
 #include "movableTile.h"
+#include "group.h"
 #include <vector>
 
 #include <iostream>
@@ -7,28 +8,29 @@
 #include <string>
 using namespace std;
 
-Agent::Agent(int type, int iRow, int jCol, int id, string filename) : MovableTile(type, iRow, jCol, id){
+Agent::Agent(int type, int id, int pos1dim, int rows, int cols, string filename) : MovableTile(type, id, pos1dim, rows, cols){
     this->filename = filename;
     canImove = true;
     amIpushable = false;
 }
 
-Agent::~Agent(){
-}
-
-void Agent::ProcessEvent(int event, vector<Tile*> &allOthers, vector<vector<int>> &matrixID){
-    // // Make tiles introduce themselves
-    // cout << allOthers.size() << endl;
-    // for (int i = 0; i < allOthers.size(); i++){
-    //     cout << to_string(event) << " " << allOthers[i]->GetStr() << endl;
+void Agent::ProcessEvent(int event, Group* pGroup){
+    //*** Make tiles introduce themselves ****
+    // for (Tile* pTile : pGroup->listTile){
+    //     cout << pTile->GetStr() << endl;
     // }
 
     string direction = GetDirection(event);
+    
     if (direction != "none"){
-        if (CanIPush(allOthers, direction, matrixID)){
-            Move();
+        cout << direction << endl;
+        if (CanIPush(direction, pGroup)){
+            // cout << "i can move it"<< endl;
+            Move(pGroup);
             listMove.push_back(event);
         }
+    }else{
+        cout << " --- "<< endl;
     }
 }
 
@@ -40,37 +42,45 @@ void Agent::SaveMoves(){
     f.close();
 }
 
-bool Agent::CanIseeAgent(Agent* pAgent, vector<Tile*> &listTile){
+bool Agent::CanIseeAgent(Agent* pAgent, Group* pGroup){
     float alphaThreshold = 25.0; //! check if this value is good ***************
 
-    int n = listTile.size();
-    int dx1;
-    int dy1;
-    int dx2;
-    int dy2;
-    int iRow = this->Get_iRow();
-    int jCol = this->Get_jCol();
-    int iRowAgent = pAgent->Get_iRow();
-    int jColAgent = pAgent->Get_jCol();
-    int iRowTile;
-    int jColtile;
-    float alpha;
+    int p1 = GetPos1dim();
+    int p2 = pAgent->GetPos1dim();
+    
+    int alpha;
+    int pt;
+    int pt1;
+    int it1;
+    int jt1;
+    int p2t;
+    int i2t;
+    int j2t;
 
-    for (int i = 0; i < n; i++){
-        iRowTile = listTile[i]->Get_iRow();
-        jColtile = listTile[i]->Get_jCol();
+    for (Tile* pTail : pGroup->listTile ){
+        pt = pTail->GetPos1dim();
 
-        dx1 = iRowAgent - iRowTile;
-        dy1 = jColAgent - jColtile;
+        pt1 = pt - p1;
+        it1 = pt1 / GetCols();
+        jt1 = pt1 % GetCols();
 
-        dx2 = iRowTile - iRow;
-        dy2 = jColtile - jCol;
+        p2t = p2 - pt;
+        i2t = p2t / GetCols();
+        j2t = p2t % GetCols();
 
-        alpha = GetArcCos(dx1, dy1, dx2, dy2);
-        
-        //* It is enough one tile covering the sight to the other agent (hider)
-        if (alpha < alphaThreshold){
-            return false;
+        // ensure they point to the same quadrant:
+        if (it1 * i2t >= 0){
+            if (jt1 * j2t >= 0){
+                // ensure they point to the same half of a quadrant:
+                if ( (it1 - jt1) * (i2t - j2t) >= 0 ){
+                    alpha = GetArcCos(it1, jt1, i2t, j2t);
+
+                    //* It is enough one tile covering the sight to the other agent (hider)
+                    if (alpha < alphaThreshold){
+                        return false;
+                    }                    
+                }
+            }
         }
     }
 

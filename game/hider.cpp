@@ -2,7 +2,7 @@
 #include "hider.h"
 #include <string>
 
-Hider::Hider(int type, float x, float y, int id, string filename) : Agent(type, x, y, id, filename){
+Hider::Hider(int type, int id, int pos1dim, int rows, int cols, string filename) : Agent(type, id, pos1dim, rows, cols, filename){
 
 }
 
@@ -16,12 +16,12 @@ string Hider::GetDirection(int event){
     switch (event)
     {
     case 0:
-        // EchoMove("+y");
-        return "dw";
-        // break;
-    case 1:
         // EchoMove("-y");
         return "up";
+        // break;
+    case 1:
+        // EchoMove("+y");
+        return "dw";
         // break;
     case 2:
         // EchoMove("-x");

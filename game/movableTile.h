@@ -2,22 +2,26 @@
 #define MOVABLETILE_H
 
 #include "tile.h"
-#include <vector>
 #include <map>
-using namespace std;
 
 class MovableTile: public Tile{
-    public:
-    map<string, vector<int>> dPosition;
-    int iRowFuture;
-    int jColFuture;
+    private:
+    int rows;
+    int cols;
+    int nCells;
+    map<string, int> dPos1dim;
+    int futurePos1dim;
     Tile* pTileHit = NULL;
 
-    MovableTile(int type, int iRow, int jCol, int id);
-    void UpdateFuturePosition(string direction, int rows, int cols);
-    virtual void Move();
+    public:
+    MovableTile(int type, int id, int pos1dim, int rows, int cols);
+    int GetRows(){return rows;};
+    int GetCols(){return cols;};
+    void UpdateFuturePosition(string direction);
+    virtual void Move(Group* pGroup);
     void EchoMove(string direction);
-    virtual bool CanIPush(vector<Tile*> &allOthers, string direction, vector<vector<int>> &matrixID);
+    void Stepback();
+    virtual bool CanIPush(string direction, Group* pGroup);
 
 };
 

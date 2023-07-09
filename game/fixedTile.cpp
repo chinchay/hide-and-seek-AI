@@ -1,10 +1,6 @@
-#include <iostream>
-// #include <string>
 #include "fixedTile.h"
 
-using namespace std;
-
-FixedTile::FixedTile(int type, int iRow, int jCol, int id) : Tile(type, iRow, jCol, id){
+FixedTile::FixedTile(int type, int id, int pos1dim) : Tile(type, id, pos1dim){
     canImove = false;
     amIpushable = false;
 }

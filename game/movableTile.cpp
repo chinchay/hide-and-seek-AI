@@ -1,39 +1,52 @@
 #include "movableTile.h"
+#include "group.h"
 #include <iostream>
 using namespace std;
 
-MovableTile::MovableTile(int type, int iRow, int jCol, int id) : Tile(type, iRow, jCol, id){
+MovableTile::MovableTile(int type, int id, int pos1dim, int rows, int cols) : Tile(type, id, pos1dim){
     canImove = true;
     amIpushable = true;
 
-    dPosition["up"] = vector<int>{-1,  0}; // [iRow][jCol]
-    dPosition["dw"] = vector<int>{ 1,  0};
-    dPosition["<-"] = vector<int>{ 0, -1};
-    dPosition["->"] = vector<int>{ 0,  1};
+    this->rows = rows;
+    this->cols = cols;
+    this->nCells = rows * cols;
 
-    iRowFuture = Get_iRow();
-    jColFuture = Get_jCol();
+    dPos1dim["up"] = -cols;
+    dPos1dim["dw"] =  cols;
+    dPos1dim["<-"] = -1;
+    dPos1dim["->"] =  1;
 
+    futurePos1dim = GetPos1dim();
 }
 
-void MovableTile::UpdateFuturePosition(string direction, int rows, int cols){
-    int i = iRowFuture + dPosition[direction][0];
-    int j = jColFuture + dPosition[direction][1];
-    
-    if ((0 <= i) and (i < rows)){
-        iRowFuture = i;
-    }
-
-    if ((0 <= j) and (j < cols)){
-        jColFuture = j;
+void MovableTile::UpdateFuturePosition(string direction){
+    int dP = dPos1dim[direction];
+    int p = GetPos1dim();
+    int k = p + dP;
+    int cols = GetCols();
+    if ((0 <= k) and (k < nCells)){
+        if (dP == -1){
+            if (p % cols != 0){
+                futurePos1dim = k;
+            }
+        }else if (dP == 1){
+            if (p % cols != (cols - 1)){
+                futurePos1dim = k;
+            }
+        }else{
+            futurePos1dim = k;
+        }
     }
 }
 
-void MovableTile::Move(){
-    Set_iRow(iRowFuture);
-    Set_jCol(jColFuture);
+void MovableTile::Move(Group* pGroup){
+    pGroup->IDstackPush(GetID());
+    SetPos1dim(futurePos1dim);
+
     if (pTileHit != NULL){
-        pTileHit->Move();
+        pTileHit->Move(pGroup);
+    }else{
+        pGroup->IDstackEnd();
     }
 }
 
@@ -42,28 +55,27 @@ void MovableTile::EchoMove(string direction){
     cout << ". I have ID=" + to_string(GetID()) + ", moving " + direction << endl;
 }
 
-bool MovableTile::CanIPush(vector<Tile*> &allOthers, string direction, vector<vector<int>> &matrixID){
-    if (direction != "none"){    
-        int rows = matrixID.size();
-        int cols = matrixID[0].size();
+void MovableTile::Stepback(){
+    futurePos1dim = GetPos1dim();
+}
 
-        UpdateFuturePosition(direction, rows, cols);
-
-        if ( (Get_iRow() != iRowFuture) or (Get_jCol() != jColFuture) ){
-            
-            
-            int id = matrixID[iRowFuture][jColFuture];
-            if (id != -1){
-                pTileHit = allOthers[id];
-                if (pTileHit->amIpushable){
-                    if (not pTileHit->CanIPush(allOthers, direction, matrixID)){
+bool MovableTile::CanIPush(string direction, Group* pGroup){
+    if (direction != "none"){
+        UpdateFuturePosition(direction);
+        if ( GetPos1dim() != futurePos1dim ){ // takes care of getting out of the box, not allowed. See `UpdateFuturePosition()`
+            this->pTileHit = pGroup->GetpTileFromPos1dim(futurePos1dim);
+            if (this->pTileHit != NULL){
+                if (this->pTileHit->amIpushable){
+                    // this->pTileHit->Display();
+                    if (not this->pTileHit->CanIPush(direction, pGroup)){
+                        Stepback();
                         return false;
                     }
                 }else{
+                    Stepback();
                     return false;
                 }
             }
-            pTileHit = NULL;
             return true;
         }
     }

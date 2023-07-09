@@ -15,10 +15,10 @@ class Agent : public MovableTile{
     vector<Tile*> listpContact;
 
     public:
-    ~Agent();
-    Agent(int type, int iRow, int jCol, int id, string filename);
-    bool CanIseeAgent(Agent* pAgent, vector<Tile*> &listTile);
-    void ProcessEvent(int event, vector<Tile*> &allOthers, vector<vector<int>> &matrixID);
+    ~Agent(){};
+    Agent(int type, int id, int pos1dim, int rows, int cols, string filename);
+    bool CanIseeAgent(Agent* pAgent, Group* pGroup);
+    void ProcessEvent(int event, Group* pGroup);
     virtual string GetDirection(int event) = 0;
         
 };

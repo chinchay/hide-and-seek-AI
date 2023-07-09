@@ -9,10 +9,10 @@ class Hider: public Agent{
     public:
     ~Hider(){};
     
-    Hider(int type, float x, float y, int id, string filename);
+    Hider(int type, int id, int pos1dim, int rows, int cols, string filename);
 
     virtual string GetStr() const {
-        return "I am a hider. Type: " + to_string(GetType());
+        return "I am a hider.      Type: " + to_string(GetType()) + ", id: " + to_string(GetID());
     };
 
     virtual string GetDirection(int event);
