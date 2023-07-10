@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <map>
 
+#include <chrono>
+
 using namespace std;
 
 void display3(Group* pGroup){
@@ -82,10 +84,12 @@ void display3(Group* pGroup){
 
 
 int main(){
+    auto start = std::chrono::high_resolution_clock::now();
+
 
     srand (time(NULL));
     vector<string> listRands;
-    for (int i = 0; i < 1000; i++){
+    for (int i = 0; i < 100000; i++){
         listRands.push_back( to_string(rand() % 10) ); // range 0 to 10-1=9
     }
 
@@ -128,12 +132,11 @@ int main(){
     string event;
     string temp;
     for (int i = 0; i < listRands.size(); i++){
-        system("clear");
-        // display2(listTile);
-        display3(pGroup);
-        cout << endl;
+        // system("clear");
+        // display3(pGroup);
+        // cout << endl;
         event = listRands[i];
-        cout << "enter digit: " + event << ". Iteration = " + to_string(i) << endl;
+        // cout << "enter digit: " + event << ". Iteration = " + to_string(i) << endl;
         // getline(cin, temp);
         
 
@@ -146,12 +149,6 @@ int main(){
         
         
         int eventInt = stoi(event);
-        // pHider->ProcessEvent(eventInt, allOthersForHider, matrixID, matrixTypes);
-        // pSeeker->ProcessEvent(eventInt, allOthersForSeeker, matrixID, matrixTypes);
-
-        // pHider->ProcessEvent(eventInt, id2pTile, rows, cols);
-        // pSeeker->ProcessEvent(eventInt, id2pTile, rows, cols);
-
         pHider->ProcessEvent(eventInt, pGroup);
         pSeeker->ProcessEvent(eventInt, pGroup);
 
@@ -179,6 +176,18 @@ int main(){
     delete pCube;
     delete pCube2;
 
+
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duration = end - start;
+    double seconds = duration.count();
+    std::cout << "Runtime: " << seconds << " seconds" << std::endl;
+
+    // double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+    // cout << "Time taken by program is : " << fixed
+    //      << time_taken << setprecision(5);
+    // cout << " sec " << endl; 
 
 
     return 0;
