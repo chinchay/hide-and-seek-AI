@@ -29,7 +29,7 @@ class Tile{
     
     virtual string GetStr() const = 0;
     virtual void Move(Group* pGroup) = 0;
-    virtual bool CanIPush(string direction, Group* pGroup) = 0;
+    virtual bool CanIPush(int direction, Group* pGroup) = 0;
 
     void Display() const {
         cout << GetStr() << endl;

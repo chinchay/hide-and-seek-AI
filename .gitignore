@@ -33,5 +33,9 @@
 
 .vscode/
 
+.DS_Store
+
+
 seeker.txt
 hider.txt
+

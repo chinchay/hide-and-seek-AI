@@ -12,7 +12,7 @@ class FixedTile : public Tile{
     };
 
     virtual void Move(Group* pGroup){};
-    virtual bool CanIPush(string direction, Group* pGroup){return false;}
+    virtual bool CanIPush(int direction, Group* pGroup){return false;}
 
 };
 

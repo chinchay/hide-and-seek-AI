@@ -13,7 +13,7 @@ class Seeker: public Agent {
         return "I am a seeker.     Type: " + to_string(GetType()) + ", id: " + to_string(GetID());
     };
 
-    virtual string GetDirection(int event);
+    virtual int GetDirection(int event);
 
 };
 

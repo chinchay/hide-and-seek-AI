@@ -15,7 +15,7 @@ class Hider: public Agent{
         return "I am a hider.      Type: " + to_string(GetType()) + ", id: " + to_string(GetID());
     };
 
-    virtual string GetDirection(int event);
+    virtual int GetDirection(int event);
     // virtual bool CanIpush(vector<Tile*> allOthers, string direction);
 
     

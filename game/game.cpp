@@ -27,6 +27,7 @@ void display3(Group* pGroup){
 
     int count = 0;
     Tile* pTile;
+    cout << endl;
     for(int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
             pTile = pGroup->pos2Tile[count];
@@ -34,14 +35,16 @@ void display3(Group* pGroup){
                 cout << type2Symbol[ pTile->GetType() ];
             }
             else{
-                cout << " ";
+                // cout << " ";
+                cout << "-";
             }
             count += 1;
             if (count % cols == 0){
                 cout << endl;
-            }            
+            }
         }
     }
+    cout << endl;
 }
 
 // void display2(vector<Tile*> &listTile){
@@ -82,15 +85,13 @@ void display3(Group* pGroup){
 //     }
 // }
 
-
-int main(){
-    auto start = std::chrono::high_resolution_clock::now();
-
-
+void thegame(){
     srand (time(NULL));
-    vector<string> listRands;
-    for (int i = 0; i < 100000; i++){
-        listRands.push_back( to_string(rand() % 10) ); // range 0 to 10-1=9
+//    vector<string> listRands;
+    vector<int> listRands;
+    for (int i = 0; i < 1000; i++){ // 100000
+        // listRands.push_back( to_string(rand() % 10) ); // range 0 to 10-1=9
+        listRands.push_back( rand() % 10 ); // range 0 to 10-1=9
     }
 
     
@@ -128,27 +129,25 @@ int main(){
 
     Group* pGroup = new Group(listTile);
 
-    // int event;
-    string event;
+    int event;
+    // string event;
     string temp;
+    int eventInt;
     for (int i = 0; i < listRands.size(); i++){
-        // system("clear");
-        // display3(pGroup);
-        // cout << endl;
-        event = listRands[i];
+        system("clear");
+        display3(pGroup);
+        eventInt = listRands[i];
         // cout << "enter digit: " + event << ". Iteration = " + to_string(i) << endl;
-        // getline(cin, temp);
-        
-
-
-
-        // display2(listTile);
-        // cout << "" << endl;
         // cout << "enter digit: ";
-        // getline(cin, event);
+        // getline(cin, temp);
+        // eventInt = stoi(temp);
+
+
+
+
+        // eventInt = listRands[i];
+
         
-        
-        int eventInt = stoi(event);
         pHider->ProcessEvent(eventInt, pGroup);
         pSeeker->ProcessEvent(eventInt, pGroup);
 
@@ -168,7 +167,7 @@ int main(){
     // *************************************************************************
     // for (int i = 0; i < listFixedTile.size(); i++){
     //     delete listFixedTile[i];
-    // }        
+    // }
     listTile.clear();
 
     delete pHider;
@@ -176,6 +175,13 @@ int main(){
     delete pCube;
     delete pCube2;
 
+}
+
+int main(){
+    auto start = std::chrono::high_resolution_clock::now();
+
+
+    thegame();
 
 
     auto end = std::chrono::high_resolution_clock::now();
@@ -184,10 +190,6 @@ int main(){
     double seconds = duration.count();
     std::cout << "Runtime: " << seconds << " seconds" << std::endl;
 
-    // double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-    // cout << "Time taken by program is : " << fixed
-    //      << time_taken << setprecision(5);
-    // cout << " sec " << endl; 
 
 
     return 0;

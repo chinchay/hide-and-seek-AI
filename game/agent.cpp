@@ -20,9 +20,9 @@ void Agent::ProcessEvent(int event, Group* pGroup){
     //     cout << pTile->GetStr() << endl;
     // }
 
-    string direction = GetDirection(event);
+    int direction = GetDirection(event);
     
-    if (direction != "none"){
+    if (direction != -1){
         // cout << direction << endl;
         if (CanIPush(direction, pGroup)){
             // cout << "i can move it"<< endl;

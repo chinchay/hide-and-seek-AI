@@ -6,7 +6,7 @@ Hider::Hider(int type, int id, int pos1dim, int rows, int cols, string filename)
 
 }
 
-string Hider::GetDirection(int event){
+int Hider::GetDirection(int event){
     // 0: up - hider
     // 1: down - hider
     // 2: left - hider
@@ -17,26 +17,34 @@ string Hider::GetDirection(int event){
     {
     case 0:
         // EchoMove("-y");
-        return "up";
+        // return "up";
+        // EchoMove(0);
+        return 0;
         // break;
     case 1:
         // EchoMove("+y");
-        return "dw";
+        // return "dw";
+        // EchoMove(1);
+        return 1;
         // break;
     case 2:
         // EchoMove("-x");
-        return "<-";
+        // return "<-";
+        // EchoMove(2);
+        return 2;
         // break;
     case 3:
         // EchoMove("+x");
-        return "->";
+        // return "->";
+        // EchoMove(3);
+        return 3;
         // break;
     
     default:
-        return "none";
+        return -1;
         // break;
     }
-    return "none";
+    return -1;
 }
 
 // bool Hider::CanIpush(vector<Tile*> allOthers, string direction){

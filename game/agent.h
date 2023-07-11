@@ -19,7 +19,7 @@ class Agent : public MovableTile{
     Agent(int type, int id, int pos1dim, int rows, int cols, string filename);
     bool CanIseeAgent(Agent* pAgent, Group* pGroup);
     void ProcessEvent(int event, Group* pGroup);
-    virtual string GetDirection(int event) = 0;
+    virtual int GetDirection(int event) = 0;
         
 };
 
