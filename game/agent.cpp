@@ -27,7 +27,7 @@ void Agent::ProcessEvent(int event, Group* pGroup){
         if (CanIPush(direction, pGroup)){
             // cout << "i can move it"<< endl;
             Move(pGroup);
-            listMove.push_back(event);
+            // listMove.push_back(event);
         }
     }else{
         // cout << " --- "<< endl;

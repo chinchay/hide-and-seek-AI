@@ -89,7 +89,7 @@ void thegame(){
     srand (time(NULL));
 //    vector<string> listRands;
     vector<int> listRands;
-    for (int i = 0; i < 1000; i++){ // 100000
+    for (int i = 0; i < 100000; i++){ // 100000
         // listRands.push_back( to_string(rand() % 10) ); // range 0 to 10-1=9
         listRands.push_back( rand() % 10 ); // range 0 to 10-1=9
     }
@@ -134,9 +134,9 @@ void thegame(){
     string temp;
     int eventInt;
     for (int i = 0; i < listRands.size(); i++){
-        system("clear");
-        display3(pGroup);
-        eventInt = listRands[i];
+        // system("clear");
+        // display3(pGroup);
+        // eventInt = listRands[i];
         // cout << "enter digit: " + event << ". Iteration = " + to_string(i) << endl;
         // cout << "enter digit: ";
         // getline(cin, temp);
@@ -145,7 +145,7 @@ void thegame(){
 
 
 
-        // eventInt = listRands[i];
+        eventInt = listRands[i];
 
         
         pHider->ProcessEvent(eventInt, pGroup);
