@@ -2,8 +2,8 @@
 #include "agent.h"
 #include <string>
 
-Seeker::Seeker(int type, int id, int pos1dim, int rows, int cols, string filename) : Agent(type, id, pos1dim, rows, cols, filename){
-
+Seeker::Seeker(int type, int id, int pos, int nRows, int nCols, string filename) : Agent(type, id, pos, nRows, nCols, filename){
+    SetTileDeriv("Seeker   ");
 }
 
 int Seeker::GetDirection(int event){

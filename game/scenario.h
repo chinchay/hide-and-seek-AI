@@ -20,24 +20,24 @@ class Scenario{
     private:
     vector<Tile *> listTile;
     string filename = "platform.txt";
-    int cols = 0;
-    int rows = 0;
+    int nCols = 0;
+    int nRows = 0;
     map<char, int> char2type;
     vector<string> listLine;
     void LoadTiles();
 
     public:
     ~Scenario(){
-        for (int i = 0; i < listTile.size(); i++){
-            delete listTile[i];
-        }
-        listTile.clear();
+        // for (int i = 0; i < listTile.size(); i++){
+        //     delete listTile[i];
+        // }
+        // listTile.clear();
     };
 
     Scenario();
-    int GetRows(){return rows;};
-    int GetCols(){return cols;};
-    vector<Tile *> GetListTile(){return listTile;};
+    int GetnRows(){return nRows;};
+    int GetnCols(){return nCols;};
+    vector<Tile *>& GetListTile(){return listTile;};
     vector<string> GetLines();
     void UpdateScenarioSize();
     void DisplayLines();

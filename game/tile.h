@@ -11,27 +11,43 @@ class Group;
 
 class Tile{
     private:
-    int type;
-    int id;
-    int pos1dim;
+    string tileDeriv = "";
+    int type  = -1;
+    int id    = -1;
+    int pos   = -1;
+    int row   = -1;
+    int col   = -1;
+    int nRows = -1;
+    int nCols = -1;
 
     public:
     bool canImove = false;
     bool amIpushable = false;
 
     virtual ~Tile(){};
-    Tile(int type, int id, int pos1dim);
+    Tile(int type, int id, int pos, int nRows, int nCols);
     
     int GetType() const {return type;};
     int GetID() const {return id;};
-    int GetPos1dim() const {return pos1dim;};
-    void SetPos1dim(int pos1dim){this->pos1dim = pos1dim;};
     
-    virtual string GetStr() const = 0;
+    int GetPos() const {return pos;};
+    int GetRow() const {return row;};
+    int GetCol() const {return col;};
+    
+    void SetPos(int pos){this->pos = pos;};
+    void SetRow(int row){this->row = row;};
+    void SetCol(int col){this->col = col;};
+
+    int GetnRows(){return nRows;};
+    int GetnCols(){return nCols;};
+
+    void SetTileDeriv(string tileDeriv){this->tileDeriv = tileDeriv;}
+
+    string GetStr();
     virtual void Move(Group* pGroup) = 0;
     virtual bool CanIPush(int direction, Group* pGroup) = 0;
 
-    void Display() const {
+    void Display() {
         cout << GetStr() << endl;
     }; 
 };

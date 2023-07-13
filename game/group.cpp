@@ -1,18 +1,22 @@
 #include "group.h"
 #include <iostream>
 
-Group::Group(vector<Tile*> listTile){
+Group::Group(vector<Tile*>& listTile, int len){
     this->listTile = listTile;
 
+    for (int i = 0; i < len; i++){
+        pos2Tile[i] = nullptr;
+    }
+
     int id;
-    int pos1dim;
+    int pos;
     int type;
     for (Tile* pTile : listTile){
         id = pTile->GetID();
         id2pTile[id] = pTile;
 
-        pos1dim = pTile->GetPos1dim();
-        pos2Tile[pos1dim] = pTile;
+        pos = pTile->GetPos();
+        pos2Tile[pos] = pTile;
 
         type = pTile->GetType();
         typeSequence.push_back(type);
@@ -20,28 +24,28 @@ Group::Group(vector<Tile*> listTile){
     
 }
 
-Tile* Group::GetpTileFromPos1dim(int pos1dim){
-    return pos2Tile[pos1dim];
+Tile* Group::GetpTileFromPos(int pos){
+    return pos2Tile[pos];
 }
 
 void Group::IDstackPush(int id){
     // do this operation before moving the tile outside in movabletile.cpp !
     idStack.push(id);
-    int pos1dim = id2pTile[id]->GetPos1dim();
-    pos2Tile[pos1dim] = NULL;
-    typeSequence[pos1dim] = 0; // "nothing" is there now
+    int pos = id2pTile[id]->GetPos();
+    pos2Tile[pos] = nullptr;
+    typeSequence[pos] = 0; // "nothing" is there now
 }
 
 void Group::IDstackEnd(){
     Tile* pTile;
-    int pos1dim;
+    int pos;
 
     while (!idStack.empty()){
         pTile = id2pTile[ idStack.top() ];
-        pos1dim = pTile->GetPos1dim();
-        pos2Tile[pos1dim] = pTile;
+        pos = pTile->GetPos();
+        pos2Tile[pos] = pTile;
         idStack.pop();
-        typeSequence[pos1dim] = pTile->GetType();
+        typeSequence[pos] = pTile->GetType();
     }
 }
 

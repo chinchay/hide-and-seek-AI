@@ -3,40 +3,34 @@
 #include <iostream>
 using namespace std;
 
-MovableTile::MovableTile(int type, int id, int pos1dim, int rows, int cols) : Tile(type, id, pos1dim){
+MovableTile::MovableTile(int type, int id, int pos, int nRows, int nCols) : Tile(type, id, pos, nRows, nCols){
     canImove = true;
     amIpushable = true;
 
-    this->rows = rows;
-    this->cols = cols;
-    this->nCells = rows * cols;
+    this->nCells = nRows * nCols;
 
     // dPos1dim["up"] = -cols;
     // dPos1dim["dw"] =  cols;
     // dPos1dim["<-"] = -1;
     // dPos1dim["->"] =  1;
 
-    dPos1dim[0] = -cols; // "-y" = up
-    dPos1dim[1] =  cols; // "+y" = dw
-    dPos1dim[2] = -1;    // "-x" = <-
-    dPos1dim[3] =  1;    // "+x" = -> 
+    dPos[0] = -nCols; // "-y" = up
+    dPos[1] =  nCols; // "+y" = dw
+    dPos[2] = -1;    // "-x" = <-
+    dPos[3] =  1;    // "+x" = -> 
 
-        
-    this->minPos = (GetPos1dim() / cols) * cols;
-    this->maxPos = minPos + cols - 1;
+    this->minPos = (GetPos() / nCols) * nCols;
+    this->maxPos = minPos + nCols - 1;
 
-    currentRow = GetPos1dim() / cols;
-    futureRow  = currentRow;
-
-    futurePos1dim = GetPos1dim();
-
+    this->futurePos = GetPos();
+    this->futureRow = GetRow();
 }
 
 void MovableTile::UpdateFuturePosition(int direction){
-    int p  = GetPos1dim();
-    int dP = dPos1dim[direction];
-    int k  = p + dP;
-    int cols = GetCols();
+    int p     = GetPos();
+    int dP    = dPos[direction];
+    int k     = p + dP;
+    int nCols = GetnCols();
 
     // cout << "hi there " << " "<< to_string(GetMinPos())        << " "  << to_string(k)        << " " << to_string(GetMaxPos())        << "  " << endl;
     // cout << "hi       " << " "<< to_string(GetMinPos() / cols) << " "  << to_string(k / cols) << " " << to_string(GetMaxPos() / cols) << "  " << endl;
@@ -46,24 +40,24 @@ void MovableTile::UpdateFuturePosition(int direction){
 
         if (dP == -1){
             if (minPos <= k){
-                futurePos1dim = k;
-                futureRow = currentRow;
+                this->futurePos = k;
+                this->futureRow = GetRow();
                 // cout << "hi there " << " "<< to_string(minPos)        << " "  << to_string(k)        << " " << to_string(maxPos)        << "  " << endl;
                 // cout << "hi       " << " "<< to_string(minPos / cols) << " "  << to_string(k / cols) << " " << to_string(maxPos / cols) << "  " << endl;
 
             }
         }else if (dP == 1){
             if (k <= maxPos){
-                futurePos1dim = k;
-                futureRow = currentRow;
+                this->futurePos = k;
+                this->futureRow = GetRow();
                 // cout << "hi there " << " "<< to_string(minPos)        << " "  << to_string(k)        << " " << to_string(maxPos)        << "  " << endl;
                 // cout << "hi       " << " "<< to_string(minPos / cols) << " "  << to_string(k / cols) << " " << to_string(maxPos / cols) << "  " << endl;
 
 
             }            
-        }else if (dP == -cols){
-            futurePos1dim = k;
-            futureRow = currentRow - 1;
+        }else if (dP == -nCols){
+            this->futurePos = k;
+            this->futureRow = GetRow() - 1;
                 // cout << "hi there " << " "<< to_string(minPos)        << " "  << to_string(k)        << " " << to_string(maxPos)        << "  " << endl;
                 // cout << "hi       " << " "<< to_string(minPos / cols) << " "  << to_string(k / cols) << " " << to_string(maxPos / cols) << "  " << endl;
 
@@ -72,9 +66,9 @@ void MovableTile::UpdateFuturePosition(int direction){
             // SetMaxJ(GetMaxJ() - cols);
             // minJthisRow -= cols;
             // maxJthisRow -= cols;
-        }else if (dP == cols){
-            futurePos1dim = k;
-            futureRow = currentRow + 1;
+        }else if (dP == nCols){
+            this->futurePos = k;
+            this->futureRow = GetRow() + 1;
                 // cout << "hi there " << " "<< to_string(minPos)        << " "  << to_string(k)        << " " << to_string(maxPos)        << "  " << endl;
                 // cout << "hi       " << " "<< to_string(minPos / cols) << " "  << to_string(k / cols) << " " << to_string(maxPos / cols) << "  " << endl;
 
@@ -103,35 +97,44 @@ void MovableTile::UpdateFuturePosition(int direction){
 }
 
 void MovableTile::Move(Group* pGroup){
-    pGroup->IDstackPush(GetID());
-    SetPos1dim(futurePos1dim);
-
-
     // *************************************************************************
     // currentRow = futureRow;
     // minPos = currentRow * cols;
     // maxPos = minPos + cols - 1;
 
-    if (futureRow != currentRow){
-        if (futureRow < currentRow){
-            minPos -= cols;
-            maxPos = minPos + cols - 1;
+    int row = GetRow();
+    int nCols = GetnCols();
+
+    if (futureRow != row){
+        if (futureRow < row){
+            this->minPos -= nCols;
+            this->maxPos = minPos + nCols - 1;
+            
         }else{
-            minPos += cols;
-            maxPos = minPos + cols - 1;
+            this->minPos += nCols;
+            this->maxPos = minPos + nCols - 1;
         }
 
-        currentRow = futureRow;
+        SetRow(futureRow);
+    }else{ // same row
+        // cout << "col:    " << GetCol() << endl;
+        SetCol( GetCol() + futurePos - GetPos() );
+        // currentCol += (futurePos - GetPos());
+        // cout << "col:||| " << GetCol() << endl;
     }
 
 
     // *************************************************************************
 
-    if (pTileHit != NULL){
+    pGroup->IDstackPush(GetID());
+    SetPos(this->futurePos);
+
+    if (pTileHit != nullptr){
         pTileHit->Move(pGroup);
     }else{
         pGroup->IDstackEnd();
     }
+    // cout << GetStr() << " : moving." << endl;
 }
 
 void MovableTile::EchoMove(int direction){
@@ -140,7 +143,7 @@ void MovableTile::EchoMove(int direction){
 }
 
 void MovableTile::Stepback(){
-    futureRow = currentRow;
+    futureRow = GetRow();
     // if (currentRow != futureRow){
     //     if (futureRow < currentRow){
     //         SetMinPos(GetMinPos() - cols);
@@ -152,7 +155,7 @@ void MovableTile::Stepback(){
     //     futureRow = currentRow;
     // }
 
-    futurePos1dim = GetPos1dim();
+    futurePos = GetPos();
 }
 
 
@@ -160,9 +163,11 @@ void MovableTile::Stepback(){
 bool MovableTile::CanIPush(int direction, Group* pGroup){
     if (direction != -1){
         UpdateFuturePosition(direction);
-        if ( GetPos1dim() != futurePos1dim ){ // takes care of getting out of the box, not allowed. See `UpdateFuturePosition()`
-            this->pTileHit = pGroup->GetpTileFromPos1dim(futurePos1dim);
-            if (this->pTileHit != NULL){
+        if ( GetPos() != futurePos ){ // takes care of getting out of the box, not allowed. See `UpdateFuturePosition()`
+            // Display();
+            this->pTileHit = pGroup->GetpTileFromPos(futurePos);
+            if (this->pTileHit != nullptr){
+                // pTileHit->Display();
                 if (this->pTileHit->amIpushable){
                     // this->pTileHit->Display();
                     if (not this->pTileHit->CanIPush(direction, pGroup)){

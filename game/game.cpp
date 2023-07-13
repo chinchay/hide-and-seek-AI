@@ -31,7 +31,7 @@ void display3(Group* pGroup){
     for(int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
             pTile = pGroup->pos2Tile[count];
-            if (pTile != NULL){
+            if (pTile != nullptr){
                 cout << type2Symbol[ pTile->GetType() ];
             }
             else{
@@ -86,38 +86,31 @@ void display3(Group* pGroup){
 // }
 
 void thegame(){
-    srand (time(NULL));
+    // srand (time(NULL));
 //    vector<string> listRands;
-    vector<int> listRands;
-    for (int i = 0; i < 100000; i++){ // 100000
-        // listRands.push_back( to_string(rand() % 10) ); // range 0 to 10-1=9
-        listRands.push_back( rand() % 10 ); // range 0 to 10-1=9
-    }
+    // vector<int> listRands;
+    // for (int i = 0; i < 100; i++){ // 100000
+    //     // listRands.push_back( to_string(rand() % 10) ); // range 0 to 10-1=9
+    //     listRands.push_back( rand() % 10 ); // range 0 to 10-1=9
+    // }
 
     
     Scenario scenario = Scenario();
 
     vector<Tile*> listTile = scenario.GetListTile();
-    int rows = scenario.GetRows();
-    int cols = scenario.GetCols();
+    int rows = scenario.GetnRows();
+    int cols = scenario.GetnCols();
 
     int id = listTile.size();
-    int pos1dm;
-    
-    pos1dm = 10;
-    string hiderFile = "hider.txt";
-    Hider* pHider  = new Hider(8, id, pos1dm, rows, cols, hiderFile);
-    listTile.push_back(pHider);
-    
-    id += 1;
-    pos1dm = 20;
-    string seekerFile = "seeker.txt";
-    Seeker* pSeeker = new Seeker(9, id, pos1dm, rows, cols, seekerFile);
-    listTile.push_back(pSeeker);
-    
+    if ( (id < 0) or (500 < id) ){
+        cout << "size seems to big!" << endl;
+        exit(0);
+    }
 
-    id += 1;
-    pos1dm = 30;
+    int pos1dm;
+
+
+    pos1dm = 2;
     Tile* pCube = new Cube(7, id, pos1dm, rows, cols);
     listTile.push_back(pCube);
 
@@ -126,30 +119,97 @@ void thegame(){
     Tile* pCube2 = new Cube(7, id, pos1dm, rows, cols);
     listTile.push_back(pCube2);
 
+    id += 1;
+    pos1dm = 43;
+    Tile* pCube3 = new Cube(7, id, pos1dm, rows, cols);
+    listTile.push_back(pCube3);
 
-    Group* pGroup = new Group(listTile);
+    id += 1;
+    pos1dm = 46;
+    Tile* pCube4 = new Cube(7, id, pos1dm, rows, cols);
+    listTile.push_back(pCube4);
+
+    id += 1;
+    pos1dm = 49;
+    Tile* pCube5 = new Cube(7, id, pos1dm, rows, cols);
+    listTile.push_back(pCube5);
+
+
+    vector<Tile*> listBlocks( listTile.begin(), listTile.end() );
+
+
+
+
+    id += 1;
+    pos1dm = 236;
+    string hiderFile = "hider.txt";
+    Hider* pHider  = new Hider(8, id, pos1dm, rows, cols, hiderFile);
+    listTile.push_back(pHider);
+    
+    id += 1;
+    pos1dm = 100;
+    string seekerFile = "seeker.txt";
+    Seeker* pSeeker = new Seeker(9, id, pos1dm, rows, cols, seekerFile);
+    listTile.push_back(pSeeker);
+    
+
+
+
+    Group* pGroup = new Group(listTile, rows * cols);
+
 
     int event;
     // string event;
     string temp;
     int eventInt;
-    for (int i = 0; i < listRands.size(); i++){
-        // system("clear");
-        // display3(pGroup);
+
+    // cout << listTile.size() << endl;
+    // for (Tile* pTile: listTile){
+    //     pTile->Display();
+    // }
+    int maxIterations = 100;
+    int randomNumber = 0;
+    // for (int i = 0; i < listRands.size(); i++){
+    for (int i = 0; i < maxIterations; i++){
+        
+        system("clear");
+        display3(pGroup);
+
+
+
+        // Tile* p = listBlocks[0];
+        if (pSeeker->CanIseeAgent(pHider, listBlocks)){
+        // if (pSeeker->CanIseeAgent(pHider, p)){
+            cout << "I see an agent!" << endl;
+            // exit(0);
+        }else{
+            cout << "***" << endl;
+        }
+
         // eventInt = listRands[i];
+        // eventInt = rand() % 10;
         // cout << "enter digit: " + event << ". Iteration = " + to_string(i) << endl;
+        cout << "enter digit: ";
+        getline(cin, temp);
+        eventInt = stoi(temp);
+
+
+
+
+        // eventInt = listRands[i];
+
+        
+        pHider->ProcessEvent(eventInt, pGroup);
+        pSeeker->ProcessEvent(eventInt, pGroup);
+        
+
         // cout << "enter digit: ";
         // getline(cin, temp);
         // eventInt = stoi(temp);
 
 
-
-
-        eventInt = listRands[i];
-
         
-        pHider->ProcessEvent(eventInt, pGroup);
-        pSeeker->ProcessEvent(eventInt, pGroup);
+        // getline(cin, temp);
 
 
         
@@ -172,23 +232,33 @@ void thegame(){
 
     delete pHider;
     delete pSeeker;
-    delete pCube;
-    delete pCube2;
+    // delete pCube;
+    // delete pCube2;
+    // delete pCube2;
 
 }
 
 int main(){
-    auto start = std::chrono::high_resolution_clock::now();
+    // auto start = std::chrono::high_resolution_clock::now();
+    std::chrono::time_point<std::chrono::system_clock> start, end;
+    start = std::chrono::system_clock::now();
 
 
     thegame();
 
 
-    auto end = std::chrono::high_resolution_clock::now();
+    // auto end = std::chrono::high_resolution_clock::now();
+    end = std::chrono::system_clock::now();
 
-    std::chrono::duration<double> duration = end - start;
-    double seconds = duration.count();
-    std::cout << "Runtime: " << seconds << " seconds" << std::endl;
+    // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    // std::cout << "Execution time: " << duration.count() << " milliseconds" << std::endl;
+
+
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+    std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";    
+
+    
 
 
 

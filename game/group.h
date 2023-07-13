@@ -5,6 +5,7 @@
 #include <vector>
 #include <stack>
 #include <map>
+#include <iostream>
 
 using namespace std;
 
@@ -21,10 +22,19 @@ class Group{
     
     vector<Tile*> listTile;
     ~Group(){};
-    Group(vector<Tile*> listTile);
-    int GetStackSize(){return idStack.size();};
+    Group(vector<Tile*>& listTile, int len);
+    // int GetStackSize(){
+    //     // return idStack.size();
+
+    //     int size = idStack.size();
+    //     if ( (size < 0) or (500 < size) ){
+    //         cout << "size seems to big!" << endl;
+    //         exit(0);
+    //     }
+    //     return size;
+    // };
     // vector<Tile*>& GetListTile(){return listTile;};
-    Tile* GetpTileFromPos1dim(int pos1dim);
+    Tile* GetpTileFromPos(int pos);
     void IDstackPush(int id);
     void IDstackEnd();
 

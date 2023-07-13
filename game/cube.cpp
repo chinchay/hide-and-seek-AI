@@ -1,6 +1,7 @@
 #include "cube.h"
 
-Cube::Cube(int type, int id, int pos1dim, int rows, int cols) : MovableTile(type, id, pos1dim, rows, cols){
+Cube::Cube(int type, int id, int pos, int nRows, int nCols) : MovableTile(type, id, pos, nRows, nCols){
+    SetTileDeriv("Cube     ");
     canImove = true;
     amIpushable = true;
 }

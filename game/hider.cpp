@@ -2,8 +2,8 @@
 #include "hider.h"
 #include <string>
 
-Hider::Hider(int type, int id, int pos1dim, int rows, int cols, string filename) : Agent(type, id, pos1dim, rows, cols, filename){
-
+Hider::Hider(int type, int id, int pos, int nRows, int nCols, string filename) : Agent(type, id, pos, nRows, nCols, filename){
+    SetTileDeriv("Hider    ");
 }
 
 int Hider::GetDirection(int event){

@@ -6,9 +6,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
+#include <cmath>
+
 using namespace std;
 
-Agent::Agent(int type, int id, int pos1dim, int rows, int cols, string filename) : MovableTile(type, id, pos1dim, rows, cols){
+Agent::Agent(int type, int id, int pos, int nRows, int nCols, string filename) : MovableTile(type, id, pos, nRows, nCols){
     this->filename = filename;
     canImove = true;
     amIpushable = false;
@@ -42,41 +45,50 @@ void Agent::SaveMoves(){
     f.close();
 }
 
-bool Agent::CanIseeAgent(Agent* pAgent, Group* pGroup){
-    float alphaThreshold = 25.0; //! check if this value is good ***************
+bool Agent::CanIseeAgent(Agent* pAgent, vector<Tile*>& listBlocks){
+// bool Agent::CanIseeAgent(Agent* pAgent, Tile* pTail){
+    float cosThreshold = 0.90; //! check if this value is good ***************
 
-    int p1 = GetPos1dim();
-    int p2 = pAgent->GetPos1dim();
-    
-    int alpha;
-    int pt;
-    int pt1;
+    int i1 = GetRow();
+    int j1 = GetCol();
+    int i2 = pAgent->GetRow();
+    int j2 = pAgent->GetCol();
+
+    float cos;
+    int it;
+    int jt;
     int it1;
     int jt1;
-    int p2t;
     int i2t;
     int j2t;
 
-    for (Tile* pTail : pGroup->listTile ){
-        pt = pTail->GetPos1dim();
+    for (Tile* pTail : listBlocks){
+        // cout << pTail->GetStr() << " " << to_string(pTail->GetPos()) << endl;
+        
+        it = pTail->GetRow();
+        jt = pTail->GetCol();
 
-        pt1 = pt - p1;
-        it1 = pt1 / GetCols();
-        jt1 = pt1 % GetCols();
+        it1 = it - i1;
+        jt1 = jt - j1;
+        i2t = i2 - it;
+        j2t = j2 - jt;
 
-        p2t = p2 - pt;
-        i2t = p2t / GetCols();
-        j2t = p2t % GetCols();
+        // cout << to_string(it) << "<>" << to_string(jt) << endl;
+        // cout << to_string(j2) << "<>" << to_string(jt) << endl;
+        // cout << to_string(it1) << "<>" << to_string(jt1) << "..." << to_string(i2t) << "<>" << to_string(j2t) << endl;
 
         // ensure they point to the same quadrant:
         if (it1 * i2t >= 0){
             if (jt1 * j2t >= 0){
                 // ensure they point to the same half of a quadrant:
                 if ( (it1 - jt1) * (i2t - j2t) >= 0 ){
-                    alpha = GetArcCos(it1, jt1, i2t, j2t);
+                    // pTail->Display();
+
+                    cos = ComputeCos(it1, jt1, i2t, j2t);
 
                     //* It is enough one tile covering the sight to the other agent (hider)
-                    if (alpha < alphaThreshold){
+                    // cout <<  cos << " " <<  cosThreshold << endl;
+                    if (cos > cosThreshold){ //0.62 < 0.8, 0.84 < 0.8
                         return false;
                     }                    
                 }
@@ -90,9 +102,30 @@ bool Agent::CanIseeAgent(Agent* pAgent, Group* pGroup){
 
 }
 
-float Agent::GetArcCos(int x1, int y1, int x2, int y2){
+float Agent::ComputeCos(int x1, int y1, int x2, int y2){
     //! ************************************************************************
     //! TODO IMPLEMENTATION
     //! ************************************************************************
-    return 0.0;
+
+    float norm1 = sqrt( (x1 * x1) + (y1 * y1) );
+    float norm2 = sqrt( (x2 * x2) + (y2 * y2) );
+    // cout << to_string(x1) << " " << to_string(y1) << "---" << to_string(x2) << " " << to_string(y2) << endl;
+    // cout << to_string(norm1) << " " << to_string(norm2) << endl;
+    
+    float cos;
+    
+    try{
+        cos = ((x1 * x2) + (y1 * y2)) / (norm1 * norm2);
+        // cout << cos << endl;
+    }catch(int e){
+        cout << "x1 y1 ... values:" << endl;
+        cout << to_string(x1) << endl;
+        cout << to_string(y1) << endl;
+        cout << to_string(x2) << endl;
+        cout << to_string(y2) << endl;
+    }
+    
+    
+
+    return cos;
 }

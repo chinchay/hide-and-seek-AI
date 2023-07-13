@@ -35,8 +35,8 @@ vector<string> Scenario::GetLines(){
 }
 
 void Scenario::UpdateScenarioSize(){
-    rows = listLine.size();
-    cols = listLine[0].length();
+    nRows = listLine.size();
+    nCols = listLine[0].length();
 }
 
 void Scenario::DisplayLines(){
@@ -49,18 +49,19 @@ void Scenario::LoadTiles(){
     char character;
     int type;
     int id = 0;
-    int pos1dim = 0;
+    int pos = 0;
     
-    for(int i = 0; i < rows; i++){
-        for (int j = 0; j < cols; j++){
+    for(int i = 0; i < nRows; i++){
+        for (int j = 0; j < nCols; j++){
             character = listLine[i][j];
             if (character != '-'){
                 type = char2type[character];
-                Tile* pTile = new FixedTile(type, id, pos1dim);
+                Tile* pTile = new FixedTile(type, id, pos, nRows, nCols);
+                // pTile->Display();
                 this->listTile.push_back(pTile);
                 id += 1;
             }
-            pos1dim += 1;
+            pos += 1;
         }
     }
     
