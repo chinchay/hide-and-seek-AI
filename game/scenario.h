@@ -13,18 +13,30 @@
 #include <vector>
 #include <map>
 #include "tile.h"
+#include "fixedTile.h"
+#include "cube.h"
+#include "ramp.h"
+#include "seeker.h"
+#include "hider.h"
 
 using namespace std;
 
 class Scenario{
     private:
-    vector<Tile *> listTile;
+    vector<Tile *> allTiles;
+    vector<Tile *> blocks;
     string filename = "platform.txt";
     int nCols = 0;
     int nRows = 0;
-    map<char, int> char2type;
+    // map<char, int> char2type;
     vector<string> listLine;
     void LoadTiles();
+    Hider* pHider;
+    Seeker* pSeeker;
+    vector<string> GetLines();
+    void UpdateScenarioSize();
+    void DisplayLines();
+
 
     public:
     ~Scenario(){
@@ -33,14 +45,13 @@ class Scenario{
         // }
         // listTile.clear();
     };
-
     Scenario();
     int GetnRows(){return nRows;};
     int GetnCols(){return nCols;};
-    vector<Tile *>& GetListTile(){return listTile;};
-    vector<string> GetLines();
-    void UpdateScenarioSize();
-    void DisplayLines();
+    vector<Tile *>& GetAllTiles(){return allTiles;};
+    vector<Tile *>& GetBlocks(){return blocks;};
+    Hider*& GetpHider(){return pHider;};
+    Seeker*& GetpSeeker(){return pSeeker;};
 
 };
 

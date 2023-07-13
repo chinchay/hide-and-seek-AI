@@ -15,12 +15,11 @@ using namespace std;
 void display3(Group* pGroup){
     map<int, char> type2Symbol;
     type2Symbol[0] = '-';
-    type2Symbol[1] = '?';
-    type2Symbol[2] = '#';
-    type2Symbol[3] = '=';
-    type2Symbol[7] = 'c';
-    type2Symbol[8] = 'H';
-    type2Symbol[9] = 'S';
+    type2Symbol[1] = '#';
+    type2Symbol[2] = '=';
+    type2Symbol[3] = '?';
+    type2Symbol[4] = 'H';
+    type2Symbol[5] = 'S';
 
     int rows = 12;
     int cols = 26;
@@ -97,65 +96,15 @@ void thegame(){
     
     Scenario scenario = Scenario();
 
-    vector<Tile*> listTile = scenario.GetListTile();
     int rows = scenario.GetnRows();
     int cols = scenario.GetnCols();
-
-    int id = listTile.size();
-    if ( (id < 0) or (500 < id) ){
-        cout << "size seems to big!" << endl;
-        exit(0);
-    }
-
-    int pos1dm;
+    vector<Tile*> allTiles = scenario.GetAllTiles();
+    vector<Tile*> blocks   = scenario.GetBlocks();
+    Hider*  pHider  = scenario.GetpHider();
+    Seeker* pSeeker = scenario.GetpSeeker();
 
 
-    pos1dm = 2;
-    Tile* pCube = new Cube(7, id, pos1dm, rows, cols);
-    listTile.push_back(pCube);
-
-    id += 1;
-    pos1dm = 40;
-    Tile* pCube2 = new Cube(7, id, pos1dm, rows, cols);
-    listTile.push_back(pCube2);
-
-    // id += 1;
-    // pos1dm = 43;
-    // Tile* pCube3 = new Cube(7, id, pos1dm, rows, cols);
-    // listTile.push_back(pCube3);
-
-    // id += 1;
-    // pos1dm = 46;
-    // Tile* pCube4 = new Cube(7, id, pos1dm, rows, cols);
-    // listTile.push_back(pCube4);
-
-    // id += 1;
-    // pos1dm = 49;
-    // Tile* pCube5 = new Cube(7, id, pos1dm, rows, cols);
-    // listTile.push_back(pCube5);
-
-
-    vector<Tile*> listBlocks( listTile.begin(), listTile.end() );
-
-
-
-
-    id += 1;
-    pos1dm = 236;
-    string hiderFile = "hider.txt";
-    Hider* pHider  = new Hider(8, id, pos1dm, rows, cols, hiderFile);
-    listTile.push_back(pHider);
-    
-    id += 1;
-    pos1dm = 100;
-    string seekerFile = "seeker.txt";
-    Seeker* pSeeker = new Seeker(9, id, pos1dm, rows, cols, seekerFile);
-    listTile.push_back(pSeeker);
-    
-
-
-
-    Group* pGroup = new Group(listTile, rows * cols);
+    Group* pGroup = new Group(allTiles, rows * cols);
 
 
     int event;
@@ -178,20 +127,20 @@ void thegame(){
 
 
         // Tile* p = listBlocks[0];
-        if (pSeeker->CanIseeAgent(pHider, listBlocks)){
+        if (pSeeker->CanIseeAgent(pHider, blocks)){
         // if (pSeeker->CanIseeAgent(pHider, p)){
-            cout << "I see an agent!" << endl;
+            // cout << "I see an agent!" << endl;
             // exit(0);
         }else{
-            cout << "***" << endl;
+            // cout << "***" << endl;
         }
 
         // eventInt = listRands[i];
-        // eventInt = rand() % 10;
+        eventInt = rand() % 10;
         // cout << "enter digit: " + event << ". Iteration = " + to_string(i) << endl;
-        cout << "enter digit: ";
-        getline(cin, temp);
-        eventInt = stoi(temp);
+        // cout << "enter digit: ";
+        // getline(cin, temp);
+        // eventInt = stoi(temp);
 
 
 
@@ -228,10 +177,10 @@ void thegame(){
     // for (int i = 0; i < listFixedTile.size(); i++){
     //     delete listFixedTile[i];
     // }
-    listTile.clear();
+    // allTiles.clear();
 
-    delete pHider;
-    delete pSeeker;
+    // delete pHider;
+    // delete pSeeker;
     // delete pCube;
     // delete pCube2;
     // delete pCube2;
