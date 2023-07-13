@@ -41,6 +41,7 @@ class Tile{
     int GetnRows(){return nRows;};
     int GetnCols(){return nCols;};
 
+    string GetTileDeriv(){return tileDeriv;};
     void SetTileDeriv(string tileDeriv){this->tileDeriv = tileDeriv;}
 
     string GetStr();

@@ -168,6 +168,13 @@ bool MovableTile::CanIPush(int direction, Group* pGroup){
             this->pTileHit = pGroup->GetpTileFromPos(futurePos);
             if (this->pTileHit != nullptr){
                 // pTileHit->Display();
+
+                
+                if ( (this->pTileHit->GetTileDeriv() == "Cube") and (GetTileDeriv() == "Seeker" )){
+                    return false;
+                }
+
+
                 if (this->pTileHit->amIpushable){
                     // this->pTileHit->Display();
                     if (not this->pTileHit->CanIPush(direction, pGroup)){

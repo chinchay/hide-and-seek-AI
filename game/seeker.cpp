@@ -3,7 +3,7 @@
 #include <string>
 
 Seeker::Seeker(int type, int id, int pos, int nRows, int nCols, string filename) : Agent(type, id, pos, nRows, nCols, filename){
-    SetTileDeriv("Seeker   ");
+    SetTileDeriv("Seeker");
 }
 
 int Seeker::GetDirection(int event){

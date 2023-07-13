@@ -119,20 +119,20 @@ void thegame(){
     Tile* pCube2 = new Cube(7, id, pos1dm, rows, cols);
     listTile.push_back(pCube2);
 
-    id += 1;
-    pos1dm = 43;
-    Tile* pCube3 = new Cube(7, id, pos1dm, rows, cols);
-    listTile.push_back(pCube3);
+    // id += 1;
+    // pos1dm = 43;
+    // Tile* pCube3 = new Cube(7, id, pos1dm, rows, cols);
+    // listTile.push_back(pCube3);
 
-    id += 1;
-    pos1dm = 46;
-    Tile* pCube4 = new Cube(7, id, pos1dm, rows, cols);
-    listTile.push_back(pCube4);
+    // id += 1;
+    // pos1dm = 46;
+    // Tile* pCube4 = new Cube(7, id, pos1dm, rows, cols);
+    // listTile.push_back(pCube4);
 
-    id += 1;
-    pos1dm = 49;
-    Tile* pCube5 = new Cube(7, id, pos1dm, rows, cols);
-    listTile.push_back(pCube5);
+    // id += 1;
+    // pos1dm = 49;
+    // Tile* pCube5 = new Cube(7, id, pos1dm, rows, cols);
+    // listTile.push_back(pCube5);
 
 
     vector<Tile*> listBlocks( listTile.begin(), listTile.end() );

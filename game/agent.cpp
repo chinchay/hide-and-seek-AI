@@ -26,12 +26,17 @@ void Agent::ProcessEvent(int event, Group* pGroup){
     int direction = GetDirection(event);
     
     if (direction != -1){
-        // cout << direction << endl;
-        if (CanIPush(direction, pGroup)){
-            // cout << "i can move it"<< endl;
-            Move(pGroup);
-            // listMove.push_back(event);
+        if (direction <= 3){
+            // cout << direction << endl;
+            if (CanIPush(direction, pGroup)){
+                // cout << "i can move it"<< endl;
+                Move(pGroup);
+                // listMove.push_back(event);
+            }
+        }else{
+
         }
+
     }else{
         // cout << " --- "<< endl;
     }
