@@ -12,12 +12,16 @@ using namespace std;
 class Tile; // << I had to add this line, otherwise I got errors: ./group.h:13:14: error: use of undeclared identifier 'Tile' map<int, Tile*> id2pTile;
 
 class Group{
-    private:
+    // private:
+    // map<int, Tile*> id2pTile;
+    // stack<int> idStack;
+    // vector<int> typeSequence;
+    
+    public:
     map<int, Tile*> id2pTile;
     stack<int> idStack;
     vector<int> typeSequence;
-    
-    public:
+
     map<int, Tile*> pos2Tile;
     
     vector<Tile*> listTile;

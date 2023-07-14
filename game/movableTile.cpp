@@ -96,7 +96,7 @@ void MovableTile::UpdateFuturePosition(int direction){
     // }
 }
 
-void MovableTile::Move(Group* pGroup){
+void MovableTile::MoveRowAndCol(){
     // *************************************************************************
     // currentRow = futureRow;
     // minPos = currentRow * cols;
@@ -122,11 +122,13 @@ void MovableTile::Move(Group* pGroup){
         // currentCol += (futurePos - GetPos());
         // cout << "col:||| " << GetCol() << endl;
     }
+}
 
-
-    // *************************************************************************
+void MovableTile::Move(Group* pGroup){
+    MoveRowAndCol();
 
     pGroup->IDstackPush(GetID());
+    
     SetPos(this->futurePos);
 
     if (pTileHit != nullptr){
@@ -178,11 +180,11 @@ bool MovableTile::CanIPush(int direction, Group* pGroup){
                 if (this->pTileHit->amIpushable){
                     // this->pTileHit->Display();
                     if (not this->pTileHit->CanIPush(direction, pGroup)){
-                        Stepback();
+                        // Stepback();
                         return false;
                     }
                 }else{
-                    Stepback();
+                    // Stepback();
                     return false;
                 }
             }

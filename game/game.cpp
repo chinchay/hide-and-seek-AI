@@ -116,7 +116,7 @@ void thegame(){
     // for (Tile* pTile: listTile){
     //     pTile->Display();
     // }
-    int maxIterations = 100;
+    int maxIterations = 1000;
     int randomNumber = 0;
     // for (int i = 0; i < listRands.size(); i++){
     for (int i = 0; i < maxIterations; i++){

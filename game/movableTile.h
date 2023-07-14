@@ -20,14 +20,18 @@ class MovableTile: public Tile{
 
 
     public:
+    int prevDirection = -1;
     MovableTile(int type, int id, int pos, int nRows, int nCols);
 
     int GetMinPos(){return minPos;};
     int GetMaxPos(){return maxPos;};
     void SetMinPos(int minPos){this->minPos = minPos;};
     void SetMaxPos(int maxPos){this->maxPos = maxPos;};
+    int GetFuturePos(){return futurePos;};
+    Tile*& GetpTileHit(){return pTileHit;};
     
     void UpdateFuturePosition(int direction);
+    void MoveRowAndCol();
     virtual void Move(Group* pGroup);
     void EchoMove(int direction);
     void Stepback();

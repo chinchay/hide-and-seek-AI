@@ -22,19 +22,75 @@ void Agent::ProcessEvent(int event, Group* pGroup){
     // for (Tile* pTile : pGroup->listTile){
     //     cout << pTile->GetStr() << endl;
     // }
-
+    Tile* pTileHit;
     int direction = GetDirection(event);
     
     if (direction != -1){
         if (direction <= 3){
             // cout << direction << endl;
+            prevDirection = direction;
             if (CanIPush(direction, pGroup)){
                 // cout << "i can move it"<< endl;
                 Move(pGroup);
                 // listMove.push_back(event);
             }
-        }else{
 
+        }else{
+            if (GetTileDeriv() == "Seeker" ){
+                pTileHit = GetpTileHit();
+                if (pTileHit != nullptr){
+                    // cout << "here2" << endl;
+                    if ( pTileHit->GetTileDeriv() == "Ramp" ){
+                        // cout << "antes:   " << GetRow() << " - " << GetCol() << " - " << GetPos() << " futurepos: " + to_string(GetFuturePos()) << endl;
+                        // SetZ(1);
+                        // pTileHit->GetPos()
+                        // MoveRowAndCol(); // futureRow is already known since pTileHit is not null
+                        // SetPos(GetFuturePos()); // futurePos is already known
+                        // cout << "before: " << GetRow() << " - " << GetCol() << " - " << GetPos() << endl;
+
+                        int prevPos = GetPos();
+                        int count = 0;
+                        
+                        UpdateFuturePosition(prevDirection);
+
+                        while ((pGroup->GetpTileFromPos(GetFuturePos()) != nullptr) and (count < 20) ){
+                            // cout << "hi" << endl;
+                            MoveRowAndCol();
+                            SetPos(GetFuturePos());
+                            UpdateFuturePosition(prevDirection);
+                            count += 1;
+                        }
+                        MoveRowAndCol();
+                        SetPos(GetFuturePos());
+
+
+                        pGroup->pos2Tile[prevPos] = nullptr;
+                        pGroup->typeSequence[prevPos] = 0; // "nothing" is there now
+
+                        pGroup->pos2Tile[GetPos()] = this;
+                        pGroup->typeSequence[GetPos()] = GetType();
+
+                        // cout << "despues: " << GetRow() << " - " << GetCol() << " - " << GetPos() << " futurepos: " + to_string(GetFuturePos()) << endl;
+
+                    }
+                }
+            }
+
+            // cout << "here" << endl;
+            // if (GetTileDeriv() == "Seeker" ){
+            //     pTileHit = GetpTileHit();
+            //     if (pTileHit != nullptr){
+            //         cout << "here2" << endl;
+            //         if ( pTileHit->GetTileDeriv() == "Ramp" ){
+            //             cout << "antes:  " << GetRow() << " - " << GetCol() << " - " << GetPos() << endl;
+            //             SetZ(1);
+            //             // pTileHit->GetPos()
+            //             MoveRowAndCol(); // futureRow is already known since pTileHit is not null
+            //             SetPos(GetFuturePos()); // futurePos is already known
+            //             cout << "before: " << GetRow() << " - " << GetCol() << " - " << GetPos() << endl;
+            //         }
+            //     }
+            // }
         }
 
     }else{

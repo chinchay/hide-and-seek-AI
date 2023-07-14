@@ -35,7 +35,8 @@ int Seeker::GetDirection(int event){
         // return "->";
         return 3;
         // break;
-    
+    case 9:
+        return 4;
     default:
         return -1;
         // break;
