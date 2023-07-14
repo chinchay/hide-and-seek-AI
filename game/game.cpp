@@ -117,6 +117,7 @@ void thegame(){
     //     pTile->Display();
     // }
     int maxIterations = 1000;
+    int sleepingIterations = 300;
     int randomNumber = 0;
     // for (int i = 0; i < listRands.size(); i++){
     for (int i = 0; i < maxIterations; i++){
@@ -125,19 +126,22 @@ void thegame(){
         display3(pGroup);
 
 
+        // IT'S NIGHT, SEEKERS ARE SLEEPING
+        if (i > sleepingIterations){
+            // Tile* p = listBlocks[0];
+            if (pSeeker->CanIseeAgent(pHider, blocks)){
+            // if (pSeeker->CanIseeAgent(pHider, p)){
+                // cout << "I see an agent!" << endl;
+                exit(0);
+            }else{
+                // cout << "***" << endl;
+            }
 
-        // Tile* p = listBlocks[0];
-        if (pSeeker->CanIseeAgent(pHider, blocks)){
-        // if (pSeeker->CanIseeAgent(pHider, p)){
-            // cout << "I see an agent!" << endl;
-            // exit(0);
-        }else{
-            // cout << "***" << endl;
         }
 
         // eventInt = listRands[i];
         eventInt = rand() % 10;
-        // cout << "enter digit: " + event << ". Iteration = " + to_string(i) << endl;
+        cout << "enter digit: " + to_string(eventInt) << ". Iteration = " + to_string(i) << endl;
         // cout << "enter digit: ";
         // getline(cin, temp);
         // eventInt = stoi(temp);
@@ -149,7 +153,12 @@ void thegame(){
 
         
         pHider->ProcessEvent(eventInt, pGroup);
-        pSeeker->ProcessEvent(eventInt, pGroup);
+
+
+        // IT'S NIGHT, SEEKERS ARE SLEEPING
+        if (i > sleepingIterations){
+            pSeeker->ProcessEvent(eventInt, pGroup);
+        }
         
 
         // cout << "enter digit: ";
