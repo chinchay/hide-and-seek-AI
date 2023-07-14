@@ -7,13 +7,29 @@
 #include "group.h"
 #include <stdlib.h>
 #include <map>
+#include <queue>
 
 #include <chrono>
 
 using namespace std;
 
-void display3(Group* pGroup){
+void display3(Group* pGroup, vector<int> blocksHiderCanSee, Tile* pHider, vector<int> blocksSeekerCanSee, Tile*pSeeker){
+    
+    // if (( blocksSeekerCanSee.size() > 0) and ( blocksHiderCanSee.size() > 0)){
+    //     for (int k = 0; k < 12 * 26; k++){
+    //         cout << blocksSeekerCanSee[k];
+    //         if (k > 0){
+    //             if ((k + 1) % 26 == 0){
+    //                 cout << endl;
+    //             }        
+    //         }
+    //     } 
+    //     cout << "---------" << endl;
+    // }
+
+
     map<int, char> type2Symbol;
+    type2Symbol[-1] = '.';
     type2Symbol[0] = '-';
     type2Symbol[1] = '#';
     type2Symbol[2] = '=';
@@ -26,23 +42,101 @@ void display3(Group* pGroup){
 
     int count = 0;
     Tile* pTile;
+    
+    
+    
     cout << endl;
-    for(int i = 0; i < rows; i++){
-        for (int j = 0; j < cols; j++){
-            pTile = pGroup->pos2Tile[count];
-            if (pTile != nullptr){
-                cout << type2Symbol[ pTile->GetType() ];
-            }
-            else{
-                // cout << " ";
-                cout << "-";
-            }
-            count += 1;
-            if (count % cols == 0){
-                cout << endl;
+
+    if (( blocksSeekerCanSee.size() == 0) and ( blocksHiderCanSee.size() == 0)){
+        for(int i = 0; i < rows; i++){
+            for (int j = 0; j < cols; j++){
+                pTile = pGroup->pos2Tile[count];
+                if (pTile != nullptr){
+                    cout << type2Symbol[ pTile->GetType() ];
+                }
+                else{
+                    // cout << " ";
+                    cout << "-";
+                }
+                count += 1;
+                if (count % cols == 0){
+                    cout << endl;
+                }
             }
         }
-    }
+    }else{
+        string space = "     ";
+        string symbol1 = "";
+        string symbol2 = "";
+        string symbol3 = "";
+        int pos;
+        queue<string> listS1;
+        queue<string> listS2;
+        queue<string> listS3;
+
+        int posHider = pHider->GetPos();
+        int posSeeker = pSeeker->GetPos();
+        
+        int count = 0;
+        for(int i = 0; i < rows; i++){
+            for (int j = 0; j < cols; j++){
+                pTile = pGroup->pos2Tile[count];
+                if (pTile != nullptr){
+                    symbol1 = type2Symbol[ pTile->GetType() ];
+                }
+                else{
+                    symbol1 = "-";
+                }
+                
+
+                listS1.push(symbol1);
+
+                if (count != posSeeker){
+                    symbol2 = type2Symbol[ blocksSeekerCanSee[count] ];
+                    listS2.push(symbol2);
+                }else{
+                    symbol2 = "S";
+                    listS2.push(symbol2);
+                }
+
+                if (count != posHider){
+                    symbol3 = type2Symbol[ blocksHiderCanSee[count] ];
+                    listS3.push(symbol3);
+                }else{
+                    symbol3 = "H";
+                    listS3.push(symbol3);
+                }
+
+
+
+                // count addition needs to be at the end:
+                count += 1;
+
+            }
+            
+
+            for (int j = 0; j < cols; j++){
+                cout << listS1.front();
+                listS1.pop();
+            }
+            cout << space;
+            for (int j = 0; j < cols; j++){
+                cout << listS3.front();
+                listS3.pop();
+            }
+            cout << space;
+            for (int j = 0; j < cols; j++){
+                cout << listS2.front();
+                listS2.pop();
+            }
+
+            
+            cout << endl;
+
+        }
+
+}
+
     cout << endl;
 }
 
@@ -117,13 +211,15 @@ void thegame(){
     //     pTile->Display();
     // }
     int maxIterations = 1000;
-    int sleepingIterations = 300;
+    int sleepingIterations = 30;
     int randomNumber = 0;
+    vector<int> blocksSeekerCanSee;
+    vector<int> blocksHiderCanSee;
     // for (int i = 0; i < listRands.size(); i++){
     for (int i = 0; i < maxIterations; i++){
         
         system("clear");
-        display3(pGroup);
+        display3(pGroup, blocksHiderCanSee, pHider, blocksSeekerCanSee, pSeeker);
 
 
         // IT'S NIGHT, SEEKERS ARE SLEEPING
@@ -132,7 +228,7 @@ void thegame(){
             if (pSeeker->CanIseeAgent(pHider, blocks)){
             // if (pSeeker->CanIseeAgent(pHider, p)){
                 // cout << "I see an agent!" << endl;
-                exit(0);
+                // exit(0);
             }else{
                 // cout << "***" << endl;
             }
@@ -141,7 +237,7 @@ void thegame(){
 
         // eventInt = listRands[i];
         eventInt = rand() % 10;
-        cout << "enter digit: " + to_string(eventInt) << ". Iteration = " + to_string(i) << endl;
+        // cout << "enter digit: " + to_string(eventInt) << ". Iteration = " + to_string(i) << endl;
         // cout << "enter digit: ";
         // getline(cin, temp);
         // eventInt = stoi(temp);
@@ -154,11 +250,18 @@ void thegame(){
         
         pHider->ProcessEvent(eventInt, pGroup);
 
-
         // IT'S NIGHT, SEEKERS ARE SLEEPING
         if (i > sleepingIterations){
             pSeeker->ProcessEvent(eventInt, pGroup);
         }
+
+        // After having moved or made a jump, update 
+        // the blocks (only blocks, not the agents) an agent can see
+        pHider->UpdateBlocksIcanSee(blocks);
+        blocksHiderCanSee = pHider->GetWhatIcanSee();       
+        
+        pSeeker->UpdateBlocksIcanSee(blocks);
+        blocksSeekerCanSee = pSeeker->GetWhatIcanSee();
         
 
         // cout << "enter digit: ";

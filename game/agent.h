@@ -13,6 +13,10 @@ class Agent : public MovableTile{
     void SaveMoves();
     float ComputeCos(int x1, int y1, int x2, int y2);
     vector<Tile*> listpContact;
+    vector<int> blocksIcanSee;
+    int nCells = -1;
+    int sightRadius = 5;
+    // vector<int*> listpB;
 
     public:
     ~Agent(){};
@@ -21,6 +25,9 @@ class Agent : public MovableTile{
     // bool CanIseeAgent(Agent* pAgent, Tile* pTile);
     void ProcessEvent(int event, Group* pGroup);
     virtual int GetDirection(int event) = 0;
+    void ResetBlocksIcanSee();
+    void UpdateBlocksIcanSee(vector<Tile*>& listBlocks);
+    vector<int>& GetWhatIcanSee(){return blocksIcanSee;};
         
 };
 

@@ -15,6 +15,11 @@ Agent::Agent(int type, int id, int pos, int nRows, int nCols, string filename) :
     this->filename = filename;
     canImove = true;
     amIpushable = false;
+    nCells = nRows * nCols;
+    for (int i = 0; i < nCells; i++){
+        blocksIcanSee.push_back(-1);
+    }
+
 }
 
 void Agent::ProcessEvent(int event, Group* pGroup){
@@ -96,6 +101,8 @@ void Agent::ProcessEvent(int event, Group* pGroup){
     }else{
         // cout << " --- "<< endl;
     }
+
+
 }
 
 void Agent::SaveMoves(){
@@ -160,6 +167,78 @@ bool Agent::CanIseeAgent(Agent* pAgent, vector<Tile*>& listBlocks){
     //* no tile is covering the sight to the agent (hider)
     return true;
     
+
+}
+
+void Agent::ResetBlocksIcanSee(){
+    // this one is too slow!! not due to the assignment, but to the loop itself
+    // for (int i = 0; i < nCells; i++){
+    //     blocksIcanSee[i] = -1;
+    // }
+
+    // this one is faster
+    // https://stackoverflow.com/questions/8848575/fastest-way-to-reset-every-value-of-stdvectorint-to-0
+    memset(&blocksIcanSee[0], -1, blocksIcanSee.size() * sizeof blocksIcanSee[0]);
+
+
+}
+
+void Agent::UpdateBlocksIcanSee(vector<Tile*>& listBlocks){
+    ResetBlocksIcanSee();
+    
+    int i1 = GetRow();
+    int j1 = GetCol();
+    int it;
+    int jt;
+    int it1;
+    int jt1;
+    int nCols = GetnCols();
+    int nRows = GetnRows();
+
+    for (Tile* pTail : listBlocks){        
+        it = pTail->GetRow();
+        jt = pTail->GetCol();
+
+        it1 = it - i1;
+        jt1 = jt - j1;
+
+        if (abs(it1) <= sightRadius){
+            if (abs(jt1) <= sightRadius){
+                blocksIcanSee[ (it * nCols) + jt ] = pTail->GetType();
+                // cout <<"it, jt, pos: " << to_string(it) << " " << to_string(jt) << "-" << to_string((it * nCols) + jt) << "-" << blocksIcanSee[ (it * nCols) + jt ] << endl;
+            }
+        }
+    }
+
+    int count = 0;
+    int minCol = 0;
+    int k = 0;
+    int pos = 0;
+
+    for (int i = i1 - sightRadius; i < i1 + sightRadius + 1; i++){
+        if ( (0 <= i) and (0 < nRows) ){
+            for (int j = j1 - sightRadius; j < j1 + sightRadius + 1; j++){
+                if( (0 <= j) and (j < nCols) ){
+                    pos = (i * nCols) + j;
+                    if (blocksIcanSee[pos] == -1){
+                        blocksIcanSee[pos] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    // cout << endl;
+    // cout <<"see unit: " << blocksIcanSee[ 57 ] << endl;
+
+    // for (int i = 0; i < blocksIcanSee.size(); i++){
+    //     cout << blocksIcanSee[i];
+    //     if (i > 0){
+    //         if ((i + 1) % nCols == 0){
+    //             cout << endl;
+    //         }        
+    //     }
+    // }
 
 }
 
