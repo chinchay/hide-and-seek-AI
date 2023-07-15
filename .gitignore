@@ -39,3 +39,8 @@
 seeker.txt
 hider.txt
 
+
+build/
+dist/
+*.egg-info/
+pybind11/

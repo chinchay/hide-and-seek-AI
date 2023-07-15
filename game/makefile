@@ -1,6 +1,6 @@
 
-a.out: game.o scenario.o tile.o fixedTile.o movableTile.o agent.o hider.o seeker.o cube.o ramp.o group.o
-	g++ game.o scenario.o tile.o fixedTile.o movableTile.o agent.o hider.o seeker.o cube.o ramp.o group.o -std=c++11  -g
+a.out: main.o game.o scenario.o tile.o fixedTile.o movableTile.o agent.o hider.o seeker.o cube.o ramp.o group.o
+	g++ main.o game.o scenario.o tile.o fixedTile.o movableTile.o agent.o hider.o seeker.o cube.o ramp.o group.o -std=c++11  -g
 
 tile.o: tile.cpp tile.h
 	g++ -c tile.cpp -std=c++11 -g
@@ -32,8 +32,11 @@ scenario.o: scenario.cpp scenario.h
 group.o: group.cpp group.h
 	g++ -c group.cpp -std=c++11 -g
 
-game.o: game.cpp
+game.o: game.cpp game.h
 	g++ -c game.cpp -std=c++11 -g
+
+main.o: main.cpp
+	g++ -c main.cpp -std=c++11 -g
 
 clean:
 	rm a.out *.o
