@@ -22,7 +22,7 @@ classDiagram
     Agent <|-- Seeker
 ```
 
-A demonstration of the software running and a walkthrough of the code can be found [here]().
+A demonstration of the software running and a walkthrough of the code can be found [here](https://youtu.be/DjnPkPepLoM).
 
 
 
@@ -42,8 +42,53 @@ $ cd hide-and-seek-AI
 $ make
 ```
 
-To be used as a compiled shared library, follow these steps:
+__To be used as a compiled shared library, follow these steps:__
 
+
+Install [Pybind11](https://github.com/pybind/pybind11) for Python
+
+```console
+$ pyenv local env4ml
+$ pip install pybind11
+```
+
+For the C++ counterpart, it will be required to download `pybind11` at the directory where the game is located:
+
+```console
+$ cd hide-and-seek-AI/game
+$ git clone https://github.com/pybind/pybind11.git
+```
+
+The Pybind11's author provides a setup module file to customize according to our project. This file is included in this repository. To build the compiled share library:
+
+```console
+$ cd hide-and-seek-AI/game
+$ mkdir build
+$ cd build
+$ cmake ..
+$ cmake --build .
+$ cd ..
+$ pyenv local env4ml
+$ python setup.py bdist_wheel
+
+$ pip install dist/*.whl
+$ # or if it has need to be updated:  # pip install dist/*.whl --force-reinstall
+
+$ python
+```
+
+
+Now, to load the C++ class into Python, follow this steps:
+
+```python
+import hideseek
+g = hideseek.Game(10, 1) # or (10, 0), 0 for not displaying on the terminal
+g.RunOneEvent(3, 1) # `RunOneEvent(event, iter)` event(movement) and iter(iteration): integers
+g.sceneHider
+g.sceneSeeker
+g.gameOver
+g.isDay
+```
 
 
 
@@ -56,15 +101,23 @@ Seeker will respond to keys 0; (up move),  1; (down move), 2; (left move),  3; (
 * __Language__: C++
 * __Version control system__: Git
 * __Cloud repository__: GitHub
+* CMake, Make, Pybind11
 
 
 # Useful Websites
 
+* [How to Call C++ from Python](https://www.matecdev.com/posts/cpp-call-from-python.html#:~:text=There%20are%20basically%20two%20ways,%2Dlevel%20C%2Dstyle%20solution.)
+
+* [Using C++ in python with pybind11 and cmake](https://www.youtube.com/watch?v=H2wOlriHGmM&ab_channel=FacileTutorials)
+
+* [Fastest way to reset every value of std::vector<int> to 0](https://stackoverflow.com/questions/8848575/fastest-way-to-reset-every-value-of-stdvectorint-to-0)
+
+* [Reinforcement Q-Learning from Scratch in Python with OpenAI Gym](https://www.learndatasci.com/tutorials/reinforcement-q-learning-scratch-python-openai-gym/
+)
 
 __Buiding a map of tiles from file__
 * [Machine learning is fun](https://medium.com/@ageitgey/machine-learning-is-fun-part-2-a26a10b68df3)
 
-__For future development__
 
 
 
@@ -88,13 +141,4 @@ Code released under the MIT License
 
 
 
-# hide-and-seek-AI
-Artificial intelligent agents will be playing the hide-and-seek game
 
-
-https://stackoverflow.com/questions/8848575/fastest-way-to-reset-every-value-of-stdvectorint-to-0
-https://www.matecdev.com/posts/cpp-call-from-python.html#:~:text=There%20are%20basically%20two%20ways,%2Dlevel%20C%2Dstyle%20solution.
-https://www.youtube.com/watch?v=H2wOlriHGmM&ab_channel=FacileTutorials
-
-
-https://www.learndatasci.com/tutorials/reinforcement-q-learning-scratch-python-openai-gym/
