@@ -9,7 +9,8 @@ class MovableTile: public Tile{
     int nCells = -1;
     int minPos = -1;
     int maxPos = -1;
-    map<int, int> dPos;
+    // map<int, int> dPos;
+    vector<int> dPos;
     int futurePos = 0;
     int futureRow = 0;
 

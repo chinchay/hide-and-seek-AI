@@ -7,6 +7,8 @@
 #include <fstream>
 #include <string>
 
+#include <cstring> // for memset(), errors in docker if not added
+
 #include <cmath>
 
 using namespace std;
@@ -45,7 +47,8 @@ void Agent::ProcessEvent(int event, Group* pGroup){
                 pTileHit = GetpTileHit();
                 if (pTileHit != nullptr){
                     // cout << "here2" << endl;
-                    if ( pTileHit->GetTileDeriv() == "Ramp" ){
+                    // if ( pTileHit->GetTileDeriv() == "Ramp" ){
+                    if ( pTileHit->GetType() == 3 ){
                         // cout << "antes:   " << GetRow() << " - " << GetCol() << " - " << GetPos() << " futurepos: " + to_string(GetFuturePos()) << endl;
                         // SetZ(1);
                         // pTileHit->GetPos()

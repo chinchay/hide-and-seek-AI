@@ -47,16 +47,15 @@ void Game::RunOneEvent(int event, int iteration){
 
     if (gameOver == 1){
         // cout << "GAME OVER"<< endl;
-        gameOver = 1;
         // exit(0);
     }
 
     if (display == 1){
-        // string temp;
-        cout << "Enter digit: " + to_string(event) << ". Iteration = " + to_string(iteration) << endl;
-        // cout << "Enter digit: ";
-        // getline(cin, temp);
-        // event = stoi(temp);
+        string temp;
+        // cout << "Enter digit: " + to_string(event) << ". Iteration = " + to_string(iteration) << endl;
+        cout << "Enter digit: ";
+        getline(cin, temp);
+        event = stoi(temp);
     }
     
     pHider->ProcessEvent(event, pGroup);

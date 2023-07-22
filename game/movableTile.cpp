@@ -14,10 +14,15 @@ MovableTile::MovableTile(int type, int id, int pos, int nRows, int nCols) : Tile
     // dPos1dim["<-"] = -1;
     // dPos1dim["->"] =  1;
 
-    dPos[0] = -nCols; // "-y" = up
-    dPos[1] =  nCols; // "+y" = dw
-    dPos[2] = -1;    // "-x" = <-
-    dPos[3] =  1;    // "+x" = -> 
+    // dPos[0] = -nCols; // "-y" = up
+    // dPos[1] =  nCols; // "+y" = dw
+    // dPos[2] = -1;    // "-x" = <-
+    // dPos[3] =  1;    // "+x" = -> 
+
+    dPos.push_back(-nCols);
+    dPos.push_back( nCols);
+    dPos.push_back(-1);
+    dPos.push_back(1);
 
     this->minPos = (GetPos() / nCols) * nCols;
     this->maxPos = minPos + nCols - 1;
@@ -172,7 +177,8 @@ bool MovableTile::CanIPush(int direction, Group* pGroup){
                 // pTileHit->Display();
 
                 
-                if ( (this->pTileHit->GetTileDeriv() == "Cube") and (GetTileDeriv() == "Seeker" )){
+                // if ( (this->pTileHit->GetTileDeriv() == "Cube") and (GetTileDeriv() == "Seeker" )){
+                if ( (this->pTileHit->GetType() == 2) and (GetType() == 5 )){
                     return false;
                 }
 
