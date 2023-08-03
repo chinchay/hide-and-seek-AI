@@ -14,6 +14,9 @@
 
 using namespace std;
 
+//******************************************************************************
+// The GAME function sets up the hide and seek program
+//******************************************************************************
 Game::Game(int nSleepIter, int display){
     this->nSleepIter = nSleepIter;
     this->display = display;
