@@ -9,6 +9,10 @@ using namespace std;
 
 class Group;
 
+//******************************************************************************
+// TILE is an abstract class. The screen will be made up of several tiles which 
+// can be categorized into movable or not movable objects
+//******************************************************************************
 class Tile{
     private:
     string tileDeriv = "";
