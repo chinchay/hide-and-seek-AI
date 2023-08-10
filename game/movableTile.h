@@ -4,6 +4,11 @@
 #include "tile.h"
 #include <map>
 
+//******************************************************************************
+// MOVABLETILE is a class that implements part of the virtual methods of the
+// TILE class. The screen will fill out with some movable tiles. Movable tiles
+// can derive into AGENT, RAMP, or CUBE classes
+//******************************************************************************
 class MovableTile: public Tile{
     private:
     int nCells = -1;
