@@ -5,6 +5,12 @@
 #include <vector>
 #include <string>
 
+//******************************************************************************
+// AGENT is a class that implements the virtual methods of the MOVABLETILE
+// class. An agent can push other movable objects, but cannot push another
+// agent. The AGENT class is still an abstract method, which can derive into
+// Seeker or Hider class.
+//******************************************************************************
 class Agent : public MovableTile{
     
     protected:
