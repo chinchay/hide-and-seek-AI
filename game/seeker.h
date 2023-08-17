@@ -4,6 +4,10 @@
 #include "agent.h"
 #include <string>
 
+//******************************************************************************
+// SEEKER is a class that implements the virtual methods of the AGENT
+// class. A seeker can move ramp tiles, but not cube tiles
+//******************************************************************************
 class Seeker: public Agent {
     public:
     ~Seeker(){};
