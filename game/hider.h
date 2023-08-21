@@ -5,6 +5,11 @@
 #include <string>
 #include <vector>
 
+//******************************************************************************
+// HIDER is a class that implements the virtual methods of the AGENT
+// class. A hider can push only ramps, and use the ramp to jump across walls
+// made up of block tiles. A hider cannot see through walls.
+//******************************************************************************
 class Hider: public Agent{
     public:
     ~Hider(){};
