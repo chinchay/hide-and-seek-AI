@@ -21,6 +21,11 @@
 
 using namespace std;
 
+//******************************************************************************
+// SCENARIO class takes care of generating the tiles according to the
+// platform.txt file. Tiles can be fixed or movable, and depending on the
+// arrangement, fixed tiles can behave as walls.
+//******************************************************************************
 class Scenario{
     private:
     vector<Tile *> allTiles;
